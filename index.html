@@ -388,7 +388,6 @@ body::before{
   color:#d7e1ff;
   line-height:1.5;
 }
-
 /* PROJECTIONS */
 .pred-grid{
   display:grid;
@@ -812,8 +811,7 @@ canvas{
         </div>
       </div>
     </div>
-
-    <div class="card">
+<div class="card">
       <div class="card-title">
         <strong>Analyse temporelle et pattern</strong>
         <span class="mini-badge" id="patternBadge">Neutre</span>
@@ -1010,8 +1008,7 @@ function loadState(){
           ...parsedSettings.settings
         };
       }
-      if(parsedSettings && parsedSettings.mode &&
-         MODE_CFG[parsedSettings.mode]){
+      if(parsedSettings && parsedSettings.mode && MODE_CFG[parsedSettings.mode]){
         state.mode = parsedSettings.mode;
       }
     }
