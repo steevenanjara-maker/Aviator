@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#0a0a0f" />
+<title>NGU's Aviator ✨ — Prediction Engine v3.0</title>
+<style>
+  /* =========================================================
+     NGU's AVIATOR — PREDICTION ENGINE v3.0
+     Analyse statistique + détection de patterns
+     ⚠️  AVERTISSEMENT : les jeux crash utilisent un RNG
+     cryptographique. Cet outil est une AIDE STATISTIQUE,
+     pas une garantie. Jouez de façon responsable.
+     ========================================================= */
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  :root{
+    --bg-0:#06070b;
+    --bg-1:#0e1017;
+    --bg-2:#161923;
+    --bg-3:#1e2230;
+    --border:rgba(255,255,255,.08);
+    --border-strong:rgba(255,255,255,.16);
+    --text:#e9ecf5;
+    --muted:#8a92a6;
+    --green:#10e089;
+    --green-2:#00b26a;
+    --red:#ff3b55;
+    --amber:#ffb020;
+    --purple:#a855f7;
+    --blue:#38bdf8;
+    --pink:#ec4899;
+    --grad-1:linear-gradient(135deg,#a855f7 0%,#6366f1 50%,#10e089 100%);
+    --grad-2:linear-gradient(135deg,#10e089 0%,#00b26a 100%);
+    --grad-3:linear-gradient(135deg,#ff3b55 0%,#a855f7 100%);
+  }
+
+  html,body{ height:100%; }
+  body{
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+                 Roboto, "Inter", sans-serif;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, rgba(168,85,247,.18), transparent 60%),
+      radial-gradient(900px 500px at 110% 10%, rgba(16,224,137,.12), transparent 60%),
+      var(--bg-0);
+    color:var(--text);
+    min-height:100%;
+    padding:16px;
+    padding-bottom:40px;
+    overflow-x:hidden;
+  }
+
+  /* ---------- CONTAINER ---------- */
+  .app{
+    max-width:520px;
+    margin:0 auto;
+    background:linear-gradient(180deg, rgba(22,25,35,.85), rgba(14,16,23,.9));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border:1px solid var(--border-strong);
+    border-radius:22px;
+    padding:18px;
+    box-shadow: 0 30px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05);
+  }
+
+  /* ---------- HEADER ---------- */
+  .header{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .logo{
+    width:40px; height:40px; border-radius:12px;
+    background:var(--grad-1);
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px;
+    box-shadow: 0 6px 18px rgba(168,85,247,.45);
+  }
+  .title{ font-size:17px; font-weight:700; letter-spacing:.2px; }
+  .subtitle{ font-size:11px; color:var(--muted); letter-spacing:.5px; text-transform:uppercase; }
+  .hdr-actions{ display:flex; gap:8px; }
+  .icon-btn{
+    width:34px; height:34px; border-radius:10px;
+    background:var(--bg-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--text); font-size:15px; cursor:pointer;
+    transition:.2s;
+  }
+  .icon-btn:active{ transform:scale(.94); background:var(--bg-3); }
+
+  /* ---------- INPUT ---------- */
+  .input-label{
+    font-size:12px; color:var(--muted); margin:6px 0 8px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .input-wrap{
+    position:relative; margin-bottom:10px;
+  }
+  input.multi-input{
+    width:100%; padding:16px 18px; font-size:22px; font-weight:700;
+    background:var(--bg-1); color:var(--text);
+    border:1.5px solid var(--border); border-radius:14px;
+    outline:none; transition:.2s;
+    font-variant-numeric: tabular-nums;
+  }
+  input.multi-input:focus{
+    border-color:var(--purple);
+    box-shadow: 0 0 0 4px rgba(168,85,247,.18);
+  }
+  .input-suffix{
+    position:absolute; right:16px; top:50%; transform:translateY(-50%);
+    color:var(--muted); font-size:14px;
+  }
+
+  /* ---------- QUICK BTNS ---------- */
+  .quick-row{
+    display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;
+  }
+  .quick-label{
+    font-size:11px; color:var(--muted); align-self:center; margin-right:4px;
+  }
+  .pill{
+    padding:7px 12px; font-size:13px; font-weight:600;
+    background:var(--bg-2); border:1px solid var(--border);
+    border-radius:50px; color:var(--text); cursor:pointer;
+    transition:.15s;
+    font-variant-numeric: tabular-nums;
+  }
+  .pill:active{ transform:scale(.93); }
+  .pill.hi{ border-color:rgba(16,224,137,.4); color:var(--green); }
+  .pill.low{ border-color:rgba(255,59,85,.3); color:#ffb3bf; }
+
+  /* ---------- ACTION BUTTONS ---------- */
+  .actions{
+    display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:14px;
+  }
+  .btn{
+    padding:14px; font-size:14px; font-weight:700;
+    border:none; border-radius:14px; cursor:pointer;
+    letter-spacing:.5px; transition:.2s;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .btn-primary{
+    background:var(--grad-1); color:#fff;
+    box-shadow: 0 8px 20px rgba(168,85,247,.35);
+  }
+  .btn-primary:active{ transform:translateY(1px); }
+  .btn-sec{
+    background:var(--bg-2); color:var(--text); border:1px solid var(--border);
+  }
+  .btn-sec:active{ background:var(--bg-3); }
+  .btn .sp{
+    width:14px; height:14px; border:2px solid rgba(255,255,255,.25);
+    border-top-color:#fff; border-radius:50%;
+    animation:spin .7s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  /* ---------- STATS GRID ---------- */
+  .stats{
+    display:grid; grid-template-columns: repeat(4, 1fr); gap:6px; margin-bottom:14px;
+  }
+  .stat{
+    background:var(--bg-1); border:1px solid var(--border);
+    border-radius:12px; padding:10px 6px; text-align:center;
+  }
+  .stat .v{ font-size:15px; font-weight:800; font-variant-numeric: tabular-nums; }
+  .stat .l{ font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-top:2px; }
+  .stat.green .v{ color:var(--green); }
+  .stat.red   .v{ color:var(--red); }
+  .stat.blue  .v{ color:var(--blue); }
+  .stat.amber .v{ color:var(--amber); }
+
+  /* ---------- PREDICTION CARD ---------- */
+  .pred-card{
+    background:linear-gradient(160deg, rgba(168,85,247,.12), rgba(16,224,137,.08));
+    border:1px solid var(--border-strong);
+    border-radius:16px; padding:14px; margin-bottom:12px;
+    position:relative; overflow:hidden;
+  }
+  .pred-card::before{
+    content:""; position:absolute; inset:-1px;
+    background:var(--grad-1); opacity:.15; filter:blur(20px); z-index:0;
+  }
+  .pred-card > *{ position:relative; z-index:1; }
+  .pred-head{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:12px; color:var(--muted); margin-bottom:10px;
+  }
+  .confidence-wrap{
+    background:var(--bg-1); border-radius:8px; overflow:hidden;
+    height:8px; margin-bottom:6px;
+  }
+  .confidence-bar{
+    height:100%; width:0%;
+    background:var(--grad-2);
+    transition: width .8s cubic-bezier(.4,0,.2,1), background .4s;
+    border-radius:8px;
+  }
+  .conf-row{ display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:12px; }
+
+  .pred-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap:10px;
+  }
+  .pred-item{
+    background:rgba(255,255,255,.03); border:1px solid var(--border);
+    border-radius:12px; padding:10px;
+  }
+  .pred-item .lbl{ font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.6px; }
+  .pred-item .val{ font-size:18px; font-weight:800; margin-top:4px; font-variant-numeric: tabular-nums; }
+  .pred-item.target .val{ color:var(--green); }
+  .pred-item.time .val{ color:var(--blue); }
+
+  .countdown{
+    margin-top:10px; text-align:center; padding:8px;
+    background:rgba(16,224,137,.08);
+    border:1px dashed rgba(16,224,137,.3);
+    border-radius:10px; font-size:13px;
+  }
+  .countdown b{ color:var(--green); font-size:16px; }
+
+  /* ---------- PATTERN / PRECAUTIONS ---------- */
+  .block{
+    background:var(--bg-1); border:1px solid var(--border);
+    border-radius:14px; padding:12px; margin-bottom:10px;
+  }
+  .block-title{
+    font-size:11px; text-transform:uppercase; letter-spacing:.6px;
+    color:var(--muted); margin-bottom:6px; display:flex; align-items:center; gap:6px;
+  }
+  .pattern-text{ font-size:13px; line-height:1.45; }
+  .tag{
+    display:inline-block; padding:3px 8px; border-radius:6px;
+    font-size:10px; font-weight:700; margin-left:6px;
+    text-transform:uppercase; letter-spacing:.5px;
+  }
+  .tag.ok{ background:rgba(16,224,137,.15); color:var(--green); }
+  .tag.warn{ background:rgba(255,176,32,.15); color:var(--amber); }
+  .tag.bad{ background:rgba(255,59,85,.15); color:var(--red); }
+
+  .precautions li{
+    list-style:none; padding:6px 0 6px 22px; position:relative;
+    font-size:12.5px; color:#c7cbd8;
+  }
+  .precautions li::before{
+    content:"▸"; position:absolute; left:6px; color:var(--purple);
+  }
+
+  /* ---------- ADVANCED STATS ---------- */
+  .adv-stats{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:6px; margin-bottom:10px;
+  }
+  .adv{
+    background:var(--bg-2); border:1px solid var(--border);
+    border-radius:10px; padding:8px; text-align:center;
+  }
+  .adv .v{ font-size:14px; font-weight:700; font-variant-numeric: tabular-nums; }
+  .adv .l{ font-size:9px; color:var(--muted); letter-spacing:.4px; text-transform:uppercase; margin-top:2px; }
+
+  /* ---------- HISTORY ---------- */
+  .history-wrap{
+    display:flex; gap:5px; overflow-x:auto; padding:4px 0 8px;
+    scrollbar-width:none;
+  }
+  .history-wrap::-webkit-scrollbar{ display:none; }
+  .hist-chip{
+    flex:0 0 auto; padding:6px 10px; border-radius:8px;
+    font-size:12px; font-weight:700; background:var(--bg-2);
+    border:1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+    cursor:pointer; transition:.15s;
+  }
+  .hist-chip:active{ transform:scale(.94); }
+  .hist-chip.pink{ background:rgba(255,59,85,.12); color:#ffb3bf; border-color:rgba(255,59,85,.3); }
+  .hist-chip.blue{ background:rgba(56,189,248,.12); color:var(--blue); border-color:rgba(56,189,248,.3); }
+  .hist-chip.green{ background:rgba(16,224,137,.12); color:var(--green); border-color:rgba(16,224,137,.3); }
+  .hist-chip.purple{ background:rgba(168,85,247,.15); color:#d8b4fe; border-color:rgba(168,85,247,.35); }
+
+  /* ---------- CHART ---------- */
+  .chart-wrap{
+    background:var(--bg-1); border:1px solid var(--border);
+    border-radius:14px; padding:10px; margin-bottom:10px;
+  }
+  canvas{ width:100%; display:block; border-radius:8px; }
+
+  /* ---------- BOTTOM TOOLBAR ---------- */
+  .toolbar{
+    display:grid; grid-template-columns: 1fr 1fr 1fr; gap:6px; margin-top:8px;
+  }
+  .tb{
+    padding:10px 6px; font-size:11px; font-weight:600;
+    background:var(--bg-2); border:1px solid var(--border);
+    border-radius:10px; color:var(--text); cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+  }
+  .tb:active{ background:var(--bg-3); }
+  .tb i{ font-size:15px; }
+
+  /* ---------- DISCLAIMER ---------- */
+  .disclaimer{
+    margin-top:12px; padding:10px 12px;
+    background:rgba(255,59,85,.08);
+    border:1px solid rgba(255,59,85,.25);
+    border-radius:10px; font-size:11px; color:#ffb3bf; line-height:1.45;
+  }
+  .disclaimer b{ color:#ff8ea0; }
+
+  /* ---------- MODAL ---------- */
+  .modal-bg{
+    position:fixed; inset:0; background:rgba(0,0,0,.7);
+    display:none; align-items:center; justify-content:center;
+    z-index:100; padding:16px;
+  }
+  .modal-bg.on{ display:flex; animation:fadeIn .2s; }
+  @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+  .modal{
+    background:var(--bg-2); border:1px solid var(--border-strong);
+    border-radius:16px; padding:18px; max-width:440px; width:100%;
+    max-height:85vh; overflow-y:auto;
+  }
+  .modal h3{ margin-bottom:10px; font-size:16px; }
+  .modal p{ font-size:13px; color:#c7cbd8; line-height:1.55; margin-bottom:8px; }
+  .modal .close-btn{
+    width:100%; margin-top:12px; padding:12px;
+    background:var(--grad-1); color:#fff; border:none; border-radius:10px;
+    font-weight:700; cursor:pointer;
+  }
+
+  /* ---------- TOAST ---------- */
+  .toast{
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(80px);
+    background:var(--bg-3); border:1px solid var(--border-strong);
+    color:var(--text); padding:10px 16px; border-radius:12px;
+    font-size:13px; z-index:200; opacity:0; transition:.3s;
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+  }
+  .toast.on{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ---------- ANALYZING STATE ---------- */
+  .analyzing .btn-primary{
+    background:var(--bg-3); color:var(--muted);
+    box-shadow:none; pointer-events:none;
+  }
+
+  /* ---------- FAVORABLE PULSE ---------- */
+  @keyframes pulseGreen {
+    0%,100%{ box-shadow: 0 0 0 0 rgba(16,224,137,.6); }
+    50%    { box-shadow: 0 0 0 14px rgba(16,224,137,0); }
+  }
+  .pred-card.favorable{
+    border-color:rgba(16,224,137,.5);
+    animation: pulseGreen 2s infinite;
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand">
+      <div class="logo">✈️</div>
+      <div>
+        <div class="title">NGU's Aviator ✨</div>
+        <div class="subtitle">Prediction Engine v3.0</div>
+      </div>
+    </div>
+    <div class="hdr-actions">
+      <button class="icon-btn" id="btnInfo" title="Info">ℹ️</button>
+      <button class="icon-btn" id="btnSettings" title="Paramètres">⚙️</button>
+    </div>
+  </div>
+
+  <!-- INPUT -->
+  <div class="input-label">
+    <span>Dernier multiplicateur observé</span>
+    <span id="liveClock" style="font-variant-numeric: tabular-nums;"></span>
+  </div>
+  <div class="input-wrap">
+    <input id="multiInput" class="multi-input" type="number" step="0.01" min="1" placeholder="Ex: 3.25" inputmode="decimal" />
+    <span class="input-suffix">×</span>
+  </div>
+
+  <!-- QUICK BUTTONS -->
+  <div class="quick-row">
+    <span class="quick-label">Rapide:</span>
+    <button class="pill low"  data-q="1.2">×1.2</button>
+    <button class="pill low"  data-q="1.5">×1.5</button>
+    <button class="pill"      data-q="2.0">×2.0</button>
+    <button class="pill hi"   data-q="3.0">×3.0</button>
+    <button class="pill hi"   data-q="5.0">×5.0</button>
+    <button class="pill hi"   data-q="10.0">×10.0</button>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button class="btn btn-primary" id="btnAnalyze">🪄 ANALYSER</button>
+    <button class="btn btn-sec" id="btnImport">📂 Importer CSV</button>
+    <input type="file" id="fileInput" accept=".csv,.txt" style="display:none" />
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat green"><div class="v" id="stAvg">×0.00</div><div class="l">Moyenne</div></div>
+    <div class="stat blue"><div class="v" id="stHigh">0</div><div class="l">×3+</div></div>
+    <div class="stat amber"><div class="v" id="stMax">×0.00</div><div class="l">Max</div></div>
+    <div class="stat red"><div class="v" id="stLow">0</div><div class="l">Low</div></div>
+  </div>
+
+  <!-- PREDICTION CARD -->
+  <div class="pred-card" id="predCard">
+    <div class="pred-head">
+      <span>🎯 <b>ANALYSE</b></span>
+      <span id="refLabel">En attente…</span>
+    </div>
+    <div class="confidence-wrap">
+      <div class="confidence-bar" id="confBar"></div>
+    </div>
+    <div class="conf-row">
+      <span>Confiance</span>
+      <span id="confPct">0%</span>
+    </div>
+
+    <div class="pred-grid">
+      <div class="pred-item time">
+        <div class="lbl">⏰ Heure prédite</div>
+        <div class="val" id="predTime">--:--:--</div>
+      </div>
+      <div class="pred-item target">
+        <div class="lbl">🚀 Multi. estimé</div>
+        <div class="val" id="predMulti">≥ ×--</div>
+      </div>
+    </div>
+    <div class="countdown">
+      Dans environ <b id="predRounds">--</b> tours
+    </div>
+  </div>
+
+  <!-- PATTERN -->
+  <div class="block">
+    <div class="block-title">🧬 Pattern détecté <span class="tag ok" id="patTag">Init</span></div>
+    <div class="pattern-text" id="patternTxt">Entrez au moins 3 valeurs pour lancer l'analyse.</div>
+  </div>
+
+  <!-- PRECAUTIONS -->
+  <div class="block">
+    <div class="block-title">⚠️ Précautions</div>
+    <ul class="precautions" id="precList">
+      <li>Observez les 3 prochains tours</li>
+      <li>Continuez à entrer les multiplicateurs pour affiner</li>
+      <li>Si mise : restez conservateur (cashout ×1.5)</li>
+    </ul>
+  </div>
+
+  <!-- CHART -->
+  <div class="chart-wrap">
+    <div class="block-title">📈 Tendance (derniers tours)</div>
+    <canvas id="chart" height="120"></canvas>
+  </div>
+
+  <!-- ADV STATS -->
+  <div class="adv-stats">
+    <div class="adv"><div class="v" id="advGap">—</div><div class="l">Gap Moy.</div></div>
+    <div class="adv"><div class="v" id="advFreq">—</div><div class="l">Fréq. &gt;3+</div></div>
+    <div class="adv"><div class="v" id="advStreak">—</div><div class="l">Série basse</div></div>
+  </div>
+
+  <!-- HISTORY -->
+  <div class="block-title" style="padding-left:4px;">🗂️ Historique des entrées</div>
+  <div class="history-wrap" id="histWrap"></div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <button class="tb" id="btnExport"><i>📤</i> Export CSV</button>
+    <button class="tb" id="btnUndo"><i>↩️</i> Annuler</button>
+    <button class="tb" id="btnReset"><i>🗑️</i> Réinitialiser</button>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <b>⚠️ Avertissement :</b> Aviator utilise un <b>RNG provably fair</b>.
+    Aucun logiciel ne peut prédire les résultats avec certitude. Cet outil
+    est une <b>aide statistique</b> (analyse de tendances, fréquences,
+    écarts) — pas une garantie de gain. Jouez de manière responsable.
+  </div>
+
+</div>
+
+<!-- INFO MODAL -->
+<div class="modal-bg" id="infoModal">
+  <div class="modal">
+    <h3>ℹ️ NGU's Aviator v3.0 — Guide</h3>
+    <p><b>But :</b> analyser l'historique des multiplicateurs et détecter des tendances statistiques (cycles, gaps, streaks).</p>
+    <p><b>Méthode :</b> on calcule la moyenne mobile, la fréquence des ×3+, l'écart moyen entre hauts et la série basse en cours. Un score de confiance est déduit de la cohérence des signaux.</p>
+    <p><b>Améliorations v3 :</b></p>
+    <p>• Moyenne pondérée exponentielle (EMA) <br>
+       • Détection de pattern avancée (3 dernières entrées)<br>
+       • Graphique temps réel (Canvas)<br>
+       • Export / Import CSV<br>
+       • Undo / sauvegarde locale (localStorage)<br>
+       • Score de confiance multi-facteurs</p>
+    <p><b>⚠️ Rappel :</b> aucun algorithme ne peut deviner un RNG cryptographique. Cet outil reste un assistant, non un oracle.</p>
+    <button class="close-btn" onclick="document.getElementById('infoModal').classList.remove('on')">Compris</button>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-bg" id="setModal">
+  <div class="modal">
+    <h3>⚙️ Paramètres</h3>
+    <p><label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">
+      Seuil "haut" (×)
+      <input id="setHigh" type="number" step="0.1" min="1.5" value="3" style="width:80px;padding:6px;background:var(--bg-1);border:1px solid var(--border);border-radius:6px;color:var(--text);text-align:center;">
+    </label></p>
+    <p><label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">
+      Seuil "bas" (×)
+      <input id="setLow" type="number" step="0.1" min="1" value="2" style="width:80px;padding:6px;background:var(--bg-1);border:1px solid var(--border);border-radius:6px;color:var(--text);text-align:center;">
+    </label></p>
+    <p><label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">
+      Cashout recommandé (×)
+      <input id="setCashout" type="number" step="0.1" min="1.1" value="1.5" style="width:80px;padding:6px;background:var(--bg-1);border:1px solid var(--border);border-radius:6px;color:var(--text);text-align:center;">
+    </label></p>
+    <p><label style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">
+      Durée d'un tour (sec)
+      <input id="setRound" type="number" step="1" min="5" value="20" style="width:80px;padding:6px;background:var(--bg-1);border:1px solid var(--border);border-radius:6px;color:var(--text);text-align:center;">
+    </label></p>
+    <button class="close-btn" id="saveSettings">Enregistrer</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">OK</div>
+
+<script>
+/* =========================================================
+   NGU'S AVIATOR — ENGINE v3.0
+   Analyse statistique avancée
+   ========================================================= */
+
+const STORAGE_KEY = "ngu_aviator_v3";
+const SETTINGS_KEY = "ngu_aviator_v3_settings";
+
+let state = {
+  history: [],        // [{v: 2.34, t: timestamp}, ...]
+  settings: {
+    highThreshold: 3.0,
+    lowThreshold: 2.0,
+    cashout: 1.5,
+    roundDuration: 20   // sec
+  }
+};
+
+/* ---------- PERSISTENCE ---------- */
+function save(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.history));
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings));
+  }catch(e){}
+}
+function load(){
+  try{
+    const h = localStorage.getItem(STORAGE_KEY);
+    const s = localStorage.getItem(SETTINGS_KEY);
+    if(h) state.history = JSON.parse(h);
+    if(s) state.settings = Object.assign(state.settings, JSON.parse(s));
+  }catch(e){}
+}
+
+/* ---------- UTIL ---------- */
+const $ = id => document.getElementById(id);
+const fmt = n => (Math.round(n*100)/100).toFixed(2);
+function pad(n){ return String(n).padStart(2,"0"); }
+function timeFromTs(ts){
+  const d = new Date(ts);
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
+function toast(msg){
+  const t = $("toast"); t.textContent = msg; t.classList.add("on");
+  clearTimeout(t._t); t._t = setTimeout(()=>t.classList.remove("on"), 1800);
+}
+
+/* ---------- CORE ANALYSIS ---------- */
+function analyze(){
+  const h = state.history;
+  if(h.length === 0){
+    return {
+      avg:0, max:0, high:0, low:0,
+      gap:"—", freq:"—", streak:"—",
+      confidence:0, targetMulti:0, rounds:0,
+      pattern:"Aucune donnée", patternType:"init",
+      ema:0
+    };
+  }
+
+  const vals = h.map(x=>x.v);
+  const hi = state.settings.highThreshold;
+  const lo = state.settings.lowThreshold;
+
+  // Basic stats
+  const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+  const max = Math.max(...vals);
+  const highCount = vals.filter(v=>v>=hi).length;
+  const lowCount = vals.filter(v=>v<lo).length;
+
+  // EMA (exponential moving average) - poids plus élevé sur récents
+  let ema = vals[0];
+  const alpha = 0.3;
+  for(let i=1;i<vals.length;i++){
+    ema = alpha*vals[i] + (1-alpha)*ema;
+  }
+
+  // Gap moyen entre hauts
+  let gaps = [];
+  let lastHi = -1;
+  for(let i=0;i<vals.length;i++){
+    if(vals[i] >= hi){
+      if(lastHi>=0) gaps.push(i - lastHi);
+      lastHi = i;
+    }
+  }
+  const gapAvg = gaps.length ? (gaps.reduce((a,b)=>a+b,0)/gaps.length) : null;
+
+  // Frequency
+  const freq = vals.length ? (highCount/vals.length*100) : 0;
+
+  // Série basse actuelle
+  let curStreak = 0;
+  for(let i=vals.length-1;i>=0;i--){
+    if(vals[i] < lo) curStreak++;
+    else break;
+  }
+
+  // Pattern (3 derniers)
+  let pattern = "", patternType = "ok";
+  const last3 = vals.slice(-3);
+  const last = vals[vals.length-1];
+
+  if(vals.length < 3){
+    pattern = "Collecte de données → entrez plus de valeurs";
+    patternType = "warn";
+  } else if(last3.every(v=>v<lo)){
+    pattern = "3 bas consécutifs → rebond probable ×3+";
+    patternType = "ok";
+  } else if(last3.every(v=>v>=hi)){
+    pattern = "Série haute → correction attendue (prudence)";
+    patternType = "warn";
+  } else if(last >= hi*2){
+    pattern = "Pic exceptionnel → cycle long de rééquilibrage";
+    patternType = "warn";
+  } else if(last < lo && curStreak >= 2){
+    pattern = `Cycle bas (${curStreak} tours) → probabilité rebond croissante`;
+    patternType = "ok";
+  } else if(gapAvg && gapAvg > 0){
+    const sinceHi = vals.length - 1 - lastHi;
+    if(sinceHi >= Math.ceil(gapAvg)){
+      pattern = `Cycle dépassé (${sinceHi}/${Math.ceil(gapAvg)} tours) → tour favorable imminent`;
+      patternType = "ok";
+    } else {
+      pattern = "Cycle normal → observation recommandée";
+      patternType = "warn";
+    }
+  } else {
+    pattern = "Cycle normal → observation recommandée";
+    patternType = "warn";
+  }
+
+  // Confidence multi-factor score (0-100)
+  let conf = 0;
+  conf += Math.min(40, vals.length*3);               // data quantity
+  if(gapAvg) conf += 15;                              // gap computed
+  if(curStreak >= 2) conf += 15;                      // current low streak
+  if(patternType === "ok") conf += 20;                // favorable pattern
+  if(ema > avg) conf += 10;                           // momentum
+  conf = Math.min(95, Math.max(5, conf));
+
+  // Target multiplier prediction (heuristic)
+  let target = Math.max(2.5, avg * 1.4);
+  if(curStreak >= 3) target = Math.max(target, 3.5);
+  if(curStreak >= 5) target = Math.max(target, 5.0);
+  if(patternType === "ok") target *= 1.15;
+
+  // Rounds until predicted favorable
+  let rounds = 1;
+  if(gapAvg){
+    const sinceHi = lastHi>=0 ? (vals.length - 1 - lastHi) : vals.length;
+    rounds = Math.max(1, Math.round(gapAvg - sinceHi));
+  } else {
+    rounds = Math.max(1, 3 - curStreak);
+  }
+
+  return {
+    avg, max, high:highCount, low:lowCount,
+    gap: gapAvg ? gapAvg.toFixed(1) : "—",
+    freq: freq.toFixed(0)+"%",
+    streak: curStreak,
+    confidence: Math.round(conf),
+    targetMulti: target,
+    rounds,
+    pattern, patternType,
+    ema
+  };
+}
+
+/* ---------- RENDER ---------- */
+function render(){
+  const a = analyze();
+
+  $("stAvg").textContent = "×"+fmt(a.avg);
+  $("stMax").textContent = "×"+fmt(a.max);
+  $("stHigh").textContent = a.high;
+  $("stLow").textContent = a.low;
+
+  $("advGap").textContent = a.gap;
+  $("advFreq").textContent = a.freq;
+  $("advStreak").textContent = a.streak;
+// Confidence
+  $("confPct").textContent = a.confidence + "%";
+  const bar = $("confBar");
+  bar.style.width = a.confidence + "%";
+  let color;
+  if(a.confidence < 35) color = "linear-gradient(90deg,#ff3b55,#ff8e40)";
+  else if(a.confidence < 60) color = "linear-gradient(90deg,#ffb020,#10e089)";
+  else color = "linear-gradient(90deg,#10e089,#00b26a)";
+  bar.style.background = color;
+
+  // Prediction card
+  const card = $("predCard");
+  card.classList.toggle("favorable", a.confidence >= 60 && a.patternType === "ok");
+
+  if(state.history.length > 0){
+    const lastEntry = state.history[state.history.length-1];
+    $("refLabel").textContent = `Réf : ${timeFromTs(lastEntry.t)} ×${fmt(lastEntry.v)}`;
+
+    const predTs = lastEntry.t + a.rounds * state.settings.roundDuration * 1000;
+    $("predTime").textContent = timeFromTs(predTs);
+    $("predMulti").textContent = "≥ ×"+fmt(a.targetMulti);
+    $("predRounds").textContent = a.rounds;
+  } else {
+    $("refLabel").textContent = "En attente…";
+    $("predTime").textContent = "--:--:--";
+    $("predMulti").textContent = "≥ ×--";
+    $("predRounds").textContent = "--";
+  }
+
+  // Pattern
+  $("patternTxt").textContent = a.pattern;
+  const tag = $("patTag");
+  tag.className = "tag " + (a.patternType==="ok"?"ok":(a.patternType==="warn"?"warn":"bad"));
+  tag.textContent = a.patternType==="ok" ? "Favorable"
+                 : a.patternType==="warn" ? "Observer" : "Init";
+
+  // Precautions dynamic
+  const pl = $("precList");
+  pl.innerHTML = "";
+  const advice = [];
+  if(state.history.length < 5){
+    advice.push("Entrez au moins 5 valeurs pour fiabiliser l'analyse");
+  }
+  if(a.patternType === "ok" && a.confidence >= 60){
+    advice.push(`Tour favorable détecté — misez 20s avant ${$("predTime").textContent}`);
+    advice.push(`Cashout conseillé à ×${fmt(state.settings.cashout*2)}`);
+  } else if(a.patternType === "warn"){
+    advice.push("Observez les 3 prochains tours avant toute mise");
+    advice.push(`Si mise : cashout rapide à ×${fmt(state.settings.cashout)}`);
+  }
+  if(a.streak >= 4){
+    advice.push(`Série basse longue (${a.streak}) → rebond probable`);
+  }
+  advice.push("Continuez à entrer les multiplicateurs pour affiner");
+  advice.forEach(t=>{
+    const li = document.createElement("li");
+    li.textContent = t;
+    pl.appendChild(li);
+  });
+
+  // History
+  renderHistory();
+  drawChart();
+}
+
+function renderHistory(){
+  const w = $("histWrap"); w.innerHTML = "";
+  const hi = state.settings.highThreshold;
+  const lo = state.settings.lowThreshold;
+  const last = state.history.slice(-20).reverse();
+  if(last.length === 0){
+    w.innerHTML = '<span style="color:var(--muted);font-size:12px;padding:6px;">Aucune entrée</span>';
+    return;
+  }
+  last.forEach((e,idx)=>{
+    const chip = document.createElement("div");
+    chip.className = "hist-chip";
+    if(e.v >= 10) chip.classList.add("purple");
+    else if(e.v >= hi) chip.classList.add("green");
+    else if(e.v >= lo) chip.classList.add("blue");
+    else chip.classList.add("pink");
+    chip.textContent = "×"+fmt(e.v);
+    chip.title = timeFromTs(e.t);
+    w.appendChild(chip);
+  });
+}
+
+/* ---------- CHART (Canvas) ---------- */
+function drawChart(){
+  const cvs = $("chart");
+  const ctx = cvs.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  const w = cvs.clientWidth;
+  const h = 120;
+  cvs.width = w*dpr; cvs.height = h*dpr;
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,w,h);
+
+  const data = state.history.slice(-30).map(x=>x.v);
+  if(data.length < 2){
+    ctx.fillStyle = "#8a92a6";
+    ctx.font = "12px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("Pas assez de données pour le graphique", w/2, h/2);
+    return;
+  }
+
+  const max = Math.max(...data, state.settings.highThreshold*1.2);
+  const min = 1;
+  const step = w / (data.length - 1);
+
+  // Grid
+  ctx.strokeStyle = "rgba(255,255,255,.06)";
+  ctx.lineWidth = 1;
+  for(let i=0;i<4;i++){
+    const y = (h/4)*i + 4;
+    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
+  }
+
+  // Threshold line (×3)
+  const hiY = h - ((state.settings.highThreshold-min)/(max-min))*h;
+  ctx.strokeStyle = "rgba(16,224,137,.4)";
+  ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(0,hiY); ctx.lineTo(w,hiY); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Fill area
+  const grad = ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0,"rgba(168,85,247,.45)");
+  grad.addColorStop(1,"rgba(168,85,247,0)");
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.moveTo(0,h);
+  data.forEach((v,i)=>{
+    const x = i*step;
+    const y = h - ((v-min)/(max-min))*h;
+    if(i===0) ctx.lineTo(x,y);
+    else ctx.lineTo(x,y);
+  });
+  ctx.lineTo((data.length-1)*step, h);
+  ctx.closePath(); ctx.fill();
+
+  // Line
+  ctx.strokeStyle = "#a855f7";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  data.forEach((v,i)=>{
+    const x = i*step;
+    const y = h - ((v-min)/(max-min))*h;
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  // Points
+  data.forEach((v,i)=>{
+    const x = i*step;
+    const y = h - ((v-min)/(max-min))*h;
+    ctx.beginPath();
+    ctx.fillStyle = v >= state.settings.highThreshold ? "#10e089"
+                  : v < state.settings.lowThreshold ? "#ff3b55" : "#38bdf8";
+    ctx.arc(x,y,3,0,Math.PI*2);
+    ctx.fill();
+  });
+}
+
+/* ---------- ACTIONS ---------- */
+function addValue(v){
+  if(isNaN(v) || v < 1){ toast("Valeur invalide (≥ 1.00)"); return; }
+  state.history.push({v:+v, t:Date.now()});
+  save();
+  render();
+}
+
+function analyzeWithAnimation(){
+  const val = parseFloat($("multiInput").value);
+  if(isNaN(val) || val < 1){
+    toast("⚠️ Entrez une valeur ≥ 1.00"); return;
+  }
+  const btn = $("btnAnalyze");
+  document.body.classList.add("analyzing");
+  btn.innerHTML = '<span class="sp"></span> ANALYSE EN COURS…';
+  setTimeout(()=>{
+    addValue(val);
+    $("multiInput").value = "";
+    document.body.classList.remove("analyzing");
+    btn.innerHTML = "🪄 ANALYSER";
+    toast("✅ Analyse mise à jour");
+  }, 700);
+}
+
+/* ---------- CSV ---------- */
+function exportCSV(){
+  if(!state.history.length){ toast("Aucune donnée"); return; }
+  const rows = ["timestamp,datetime,multiplier"];
+  state.history.forEach(e=>{
+    rows.push(`${e.t},${new Date(e.t).toISOString()},${e.v}`);
+  });
+  const blob = new Blob([rows.join("\n")], {type:"text/csv"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = `aviator_history_${Date.now()}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast("📤 CSV exporté");
+}
+
+function importCSV(file){
+  const reader = new FileReader();
+  reader.onload = e => {
+    const txt = e.target.result;
+    const lines = txt.split(/\r?\n/).filter(l=>l.trim());
+    let imported = 0;
+    lines.forEach(line=>{
+      // accept: "x.xx" | "ts,iso,x.xx" | "x.xx,ts"
+      const parts = line.split(",").map(s=>s.trim());
+      let val = NaN, ts = Date.now();
+      for(const p of parts){
+        const n = parseFloat(p);
+        if(!isNaN(n) && n >= 1 && n <= 10000){ val = n; break; }
+      }
+      const tsNum = parseInt(parts[0]);
+      if(!isNaN(tsNum) && tsNum > 1000000000000) ts = tsNum;
+      if(!isNaN(val)){
+        state.history.push({v:val, t:ts + imported*1000});
+        imported++;
+      }
+    });
+    save(); render();
+    toast(`📥 ${imported} valeurs importées`);
+  };
+  reader.readAsText(file);
+}
+
+/* ---------- EVENTS ---------- */
+document.querySelectorAll(".pill").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    $("multiInput").value = b.dataset.q;
+  });
+});
+
+$("btnAnalyze").addEventListener("click", analyzeWithAnimation);
+$("multiInput").addEventListener("keydown", e=>{
+  if(e.key==="Enter") analyzeWithAnimation();
+});
+
+$("btnImport").addEventListener("click", ()=>$("fileInput").click());
+$("fileInput").addEventListener("change", e=>{
+  if(e.target.files[0]) importCSV(e.target.files[0]);
+  e.target.value = "";
+});
+
+$("btnExport").addEventListener("click", exportCSV);
+$("btnUndo").addEventListener("click", ()=>{
+  if(!state.history.length){ toast("Rien à annuler"); return; }
+  state.history.pop(); save(); render();
+  toast("↩️ Dernière entrée supprimée");
+});
+$("btnReset").addEventListener("click", ()=>{
+  if(!state.history.length){ toast("Déjà vide"); return; }
+  if(confirm("Effacer tout l'historique ?")){
+    state.history = []; save(); render();
+    toast("🗑️ Historique réinitialisé");
+  }
+});
+
+$("btnInfo").addEventListener("click", ()=>$("infoModal").classList.add("on"));
+$("btnSettings").addEventListener("click", ()=>{
+  $("setHigh").value = state.settings.highThreshold;
+  $("setLow").value = state.settings.lowThreshold;
+  $("setCashout").value = state.settings.cashout;
+  $("setRound").value = state.settings.roundDuration;
+  $("setModal").classList.add("on");
+});
+$("saveSettings").addEventListener("click", ()=>{
+  state.settings.highThreshold = parseFloat($("setHigh").value) || 3;
+  state.settings.lowThreshold  = parseFloat($("setLow").value)  || 2;
+  state.settings.cashout       = parseFloat($("setCashout").value) || 1.5;
+  state.settings.roundDuration = parseInt($("setRound").value) || 20;
+  save(); render();
+  $("setModal").classList.remove("on");
+  toast("⚙️ Paramètres enregistrés");
+});
+
+document.querySelectorAll(".modal-bg").forEach(m=>{
+  m.addEventListener("click", e=>{
+    if(e.target === m) m.classList.remove("on");
+  });
+});
+
+/* Live clock */
+function tickClock(){
+  const d = new Date();
+  $("liveClock").textContent = `🕐 ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
+setInterval(tickClock, 1000); tickClock();
+
+/* Redraw chart on resize */
+window.addEventListener("resize", ()=>drawChart());
+
+/* ---------- INIT ---------- */
+load();
+render();
+</script>
+
+</body>
+</html>
+
+
+
+
