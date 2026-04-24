@@ -141,7 +141,7 @@ body{
 .time-input-wrap::before{
   content:'⏰';position:absolute;left:10px;top:50%;transform:translateY(-50%);
   font-size:13px;pointer-events:none;z-index:1;
-  }
+}
 .time-input{padding-left:32px !important;text-align:left !important;letter-spacing:2px}
 
 .factor-wrap::before{
@@ -688,7 +688,7 @@ canvas{width:100%;display:block;border-radius:8px}
           <div class="pred-item factor"><div class="lbl">× Multiplier</div><div class="val" id="nextTourMulti">×--</div></div>
         </div>
         <div class="countdown">Compte à rebours : <b id="countdownBig">--:--</b></div>
-      </div>
+           </div>
 
       <!-- TOURS GRID -->
       <div class="block fade-in">
@@ -778,6 +778,459 @@ canvas{width:100%;display:block;border-radius:8px}
     <button class="close-btn" id="saveSettings">💾 Enregistrer</button>
   </div>
 </div>
+
+<div class="toast" id="toast">OK</div>
+
+<script>
+/* =========================================================
+   NGU × MAMIRATRA ULTRA v4.0 — FUSION ENGINE
+   ========================================================= */
+
+const STORAGE_KEY = "ngu_ultra_v4";
+const SETTINGS_KEY = "ngu_ultra_v4_settings";
+const PRED_HIST_KEY = "ngu_ultra_v4_predhist";
+
+let state = {
+  history: [],
+  predHistory: [],
+  settings: {
+    highThreshold: 3.0,
+    lowThreshold: 2.0,
+    cashout: 1.5,
+    roundDuration: 20,
+    alpha: 0.3
+  }
+};
+
+let currentMode = 'standard';
+let allPredictions = [];
+let countdownInterval = null;
+let scanInterval = null;
+
+/* ======= CONFIG MODES (fusion des 3 sources) ======= */
+const CONFIG = {
+  standard: {
+    name:'Standard', baseOffsets:[232,238,268,274,292],
+    gapBase:[13,16,19,14,11], gapVariance:3,
+    observedMin:158, observedMax:294, observedMean:241,
+    multiWeights:[
+      {min:1.5,max:5,w:12},{min:5.01,max:15,w:28},{min:15.01,max:40,w:32},
+      {min:40.01,max:80,w:20},{min:80.01,max:150,w:8}
+    ],
+    offsetBase:195, fibonacci:[1,1,2,3,5,8,13,21,34,55], phi:1.618033988749,
+    confBonus:0, label:'🎯'
+  },
+  aggressive: {
+    name:'Agressif', baseOffsets:[195,210,240,255,275],
+    gapBase:[10,13,17,21,9], gapVariance:6,
+    observedMin:140, observedMax:310, observedMean:225,
+    multiWeights:[
+      {min:2,max:8,w:10},{min:8.01,max:20,w:22},{min:20.01,max:55,w:30},
+      {min:55.01,max:100,w:25},{min:100.01,max:200,w:13}
+    ],
+    offsetBase:165, fibonacci:[1,1,2,3,5,8,13,21,34,55], phi:1.618033988749,
+    confBonus:-5, label:'🔥'
+  },
+  safe: {
+    name:'Prudent', baseOffsets:[250,258,278,285,300],
+    gapBase:[15,18,22,16,13], gapVariance:2,
+    observedMin:170, observedMax:310, observedMean:260,
+    multiWeights:[
+      {min:1.5,max:4,w:20},{min:4.01,max:10,w:35},{min:10.01,max:25,w:28},
+      {min:25.01,max:50,w:14},{min:50.01,max:80,w:3}
+    ],
+    offsetBase:220, fibonacci:[1,1,2,3,5,8,13,21,34,55], phi:1.618033988749,
+    confBonus:8, label:'🛡️'
+  }
+};
+
+/* ======= PERSISTENCE ======= */
+function save(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.history));
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings));
+    localStorage.setItem(PRED_HIST_KEY, JSON.stringify(state.predHistory));
+  }catch(e){}
+}
+function load(){
+  try{
+    const h = localStorage.getItem(STORAGE_KEY);
+    const s = localStorage.getItem(SETTINGS_KEY);
+    const p = localStorage.getItem(PRED_HIST_KEY);
+    if(h) state.history = JSON.parse(h);
+    if(s) state.settings = Object.assign(state.settings, JSON.parse(s));
+    if(p) state.predHistory = JSON.parse(p);
+  }catch(e){}
+}
+
+/* ======= UTILS ======= */
+const $ = id => document.getElementById(id);
+const fmt = n => (Math.round(n*100)/100).toFixed(2);
+const pad = n => String(n).padStart(2,"0");
+function timeFromTs(ts){const d=new Date(ts);return`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;}
+function secToTime(sec){sec=((sec%86400)+86400)%86400;return`${pad(Math.floor(sec/3600))}:${pad(Math.floor((sec%3600)/60))}:${pad(Math.floor(sec%60))}`;}
+function secToMinSec(sec){return`${Math.floor(sec/60)}m${pad(Math.round(sec%60))}s`;}
+function parseTime(str){
+  const p=str.split(':').map(Number);
+  if(p.length!==3||p.some(isNaN))return null;
+  if(p[0]<0||p[0]>23||p[1]<0||p[1]>59||p[2]<0||p[2]>59)return null;
+  return{h:p[0],m:p[1],s:p[2],sec:p[0]*3600+p[1]*60+p[2]};
+}
+function formatTime(input){
+  let v=input.value.replace(/[^0-9]/g,'');
+  if(v.length>6)v=v.slice(0,6);
+  let f='';
+  for(let i=0;i<v.length;i++){if(i===2||i===4)f+=':';f+=v[i];}
+  input.value=f;
+}
+function toast(msg){
+  const t=$("toast");t.textContent=msg;t.classList.add("on");
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),1800);
+}
+function shake(el){el.style.animation='none';el.offsetHeight;el.style.animation='shake .4s ease';setTimeout(()=>el.style.animation='',400);}
+
+/* ======= PRNG & HASH ======= */
+function sRand(seed){let x=Math.sin(seed)*10000;return x-Math.floor(x);}
+function hashSeed(h,m,s,extra){return((h*3600+m*60+s)*7+extra*13+42);}
+function mixHash(a,b){
+  let h=a^(b*2654435761);
+  h=((h>>16)^h)*0x45d9f3b;
+  h=((h>>16)^h)*0x45d9f3b;
+  h=(h>>16)^h;
+  return Math.abs(h%10000)/10000;
+}
+
+/* ======= LIVE ANALYSIS (NGU style) ======= */
+function analyzeLive(){
+  const h=state.history;
+  if(h.length===0){
+    return{avg:0,max:0,high:0,low:0,gap:"—",freq:"—",streak:"—",confidence:0,
+           targetMulti:0,rounds:0,pattern:"Aucune donnée",patternType:"init",ema:0};
+  }
+  const vals=h.map(x=>x.v);
+  const hi=state.settings.highThreshold;
+  const lo=state.settings.lowThreshold;
+  const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
+  const max=Math.max(...vals);
+  const highCount=vals.filter(v=>v>=hi).length;
+  const lowCount=vals.filter(v=>v<lo).length;
+
+  // EMA
+  let ema=vals[0];const alpha=state.settings.alpha;
+  for(let i=1;i<vals.length;i++)ema=alpha*vals[i]+(1-alpha)*ema;
+
+  // Gap moyen
+  let gaps=[],lastHi=-1;
+  for(let i=0;i<vals.length;i++){
+    if(vals[i]>=hi){if(lastHi>=0)gaps.push(i-lastHi);lastHi=i;}
+  }
+  const gapAvg=gaps.length?(gaps.reduce((a,b)=>a+b,0)/gaps.length):null;
+  const freq=vals.length?(highCount/vals.length*100):0;
+
+  // Série basse
+  let curStreak=0;
+  for(let i=vals.length-1;i>=0;i--){if(vals[i]<lo)curStreak++;else break;}
+
+  // Pattern
+  let pattern="",patternType="ok";
+  const last3=vals.slice(-3),last=vals[vals.length-1];
+  if(vals.length<3){pattern="Collecte de données → entrez plus de valeurs";patternType="warn";}
+  else if(last3.every(v=>v<lo)){pattern="3 bas consécutifs → rebond probable ×3+";patternType="ok";}
+  else if(last3.every(v=>v>=hi)){pattern="Série haute → correction attendue (prudence)";patternType="warn";}
+  else if(last>=hi*2){pattern="Pic exceptionnel → cycle long de rééquilibrage";patternType="warn";}
+  else if(last<lo&&curStreak>=2){pattern=`Cycle bas (${curStreak} tours) → probabilité rebond croissante`;patternType="ok";}
+  else if(gapAvg&&gapAvg>0){
+    const sinceHi=vals.length-1-lastHi;
+    if(sinceHi>=Math.ceil(gapAvg)){pattern=`Cycle dépassé (${sinceHi}/${Math.ceil(gapAvg)} tours) → tour favorable imminent`;patternType="ok";}
+    else{pattern="Cycle normal → observation recommandée";patternType="warn";}
+  }else{pattern="Cycle normal → observation recommandée";patternType="warn";}
+
+  // Confidence
+  let conf=0;
+  conf+=Math.min(40,vals.length*3);
+  if(gapAvg)conf+=15;
+  if(curStreak>=2)conf+=15;
+  if(patternType==="ok")conf+=20;
+  if(ema>avg)conf+=10;
+  conf=Math.min(95,Math.max(5,conf));
+
+  // Target
+  let target=Math.max(2.5,avg*1.4);
+  if(curStreak>=3)target=Math.max(target,3.5);
+  if(curStreak>=5)target=Math.max(target,5.0);
+  if(patternType==="ok")target*=1.15;
+
+  // Rounds
+  let rounds=1;
+  if(gapAvg){
+    const sinceHi=lastHi>=0?(vals.length-1-lastHi):vals.length;
+    rounds=Math.max(1,Math.round(gapAvg-sinceHi));
+  }else{rounds=Math.max(1,3-curStreak);}
+
+  return{avg,max,high:highCount,low:lowCount,
+         gap:gapAvg?gapAvg.toFixed(1):"—",freq:freq.toFixed(0)+"%",streak:curStreak,
+         confidence:Math.round(conf),targetMulti:target,rounds,pattern,patternType,ema};
+}
+
+/* ======= RENDER LIVE ======= */
+function renderLive(){
+  const a=analyzeLive();
+  $("stAvg").textContent="×"+fmt(a.avg);
+  $("stMax").textContent="×"+fmt(a.max);
+  $("stHigh").textContent=a.high;
+  $("stLow").textContent=a.low;
+  $("advGap").textContent=a.gap;
+  $("advFreq").textContent=a.freq;
+  $("advStreak").textContent=a.streak;
+
+  $("confPct").textContent=a.confidence+"%";
+  const bar=$("confBar");bar.style.width=a.confidence+"%";
+  let color;
+  if(a.confidence<35)color="linear-gradient(90deg,#ff3b55,#ff8e40)";
+  else if(a.confidence<60)color="linear-gradient(90deg,#ffb020,#10e089)";
+  else color="linear-gradient(90deg,#10e089,#00b26a)";
+  bar.style.background=color;
+
+  const card=$("predCard");
+  card.classList.toggle("favorable",a.confidence>=60&&a.patternType==="ok");
+
+  if(state.history.length>0){
+    const lastEntry=state.history[state.history.length-1];
+    $("refLabel").textContent=`Réf : ${timeFromTs(lastEntry.t)} ×${fmt(lastEntry.v)}`;
+    const predTs=lastEntry.t+a.rounds*state.settings.roundDuration*1000;
+    $("predTime").textContent=timeFromTs(predTs);
+    $("predMulti").textContent="≥ ×"+fmt(a.targetMulti);
+    $("predRounds").textContent=a.rounds;
+
+    // live countdown on live tab
+    const diffS=Math.max(0,Math.floor((predTs-Date.now())/1000));
+    $("liveCountdown").textContent=`${pad(Math.floor(diffS/60))}:${pad(diffS%60)}`;
+  }else{
+    $("refLabel").textContent="En attente…";
+    $("predTime").textContent="--:--:--";
+    $("predMulti").textContent="≥ ×--";
+    $("predRounds").textContent="--";
+    $("liveCountdown").textContent="--:--";
+  }
+
+  $("patternTxt").textContent=a.pattern;
+  const tag=$("patTag");
+  tag.className="tag "+(a.patternType==="ok"?"ok":(a.patternType==="warn"?"warn":"bad"));
+  tag.textContent=a.patternType==="ok"?"Favorable":a.patternType==="warn"?"Observer":"Init";
+
+  // Precautions
+  const pl=$("precList");pl.innerHTML="";
+  const advice=[];
+  if(state.history.length<5)advice.push("Entrez au moins 5 valeurs pour fiabiliser l'analyse");
+  if(a.patternType==="ok"&&a.confidence>=60){
+    advice.push(`Tour favorable détecté — misez 20s avant ${$("predTime").textContent}`);
+    advice.push(`Cashout conseillé à ×${fmt(state.settings.cashout*2)}`);
+  }else if(a.patternType==="warn"){
+    advice.push("Observez les 3 prochains tours avant toute mise");
+    advice.push(`Si mise : cashout rapide à ×${fmt(state.settings.cashout)}`);
+  }
+  if(a.streak>=4)advice.push(`Série basse longue (${a.streak}) → rebond probable`);
+  advice.push("Continuez à entrer les multiplicateurs pour affiner");
+  advice.forEach(t=>{const li=document.createElement("li");li.textContent=t;pl.appendChild(li);});
+
+  renderLiveHistory();drawChart();
+}
+
+function renderLiveHistory(){
+  const w=$("histWrap");w.innerHTML="";
+  const hi=state.settings.highThreshold;
+  const lo=state.settings.lowThreshold;
+  const last=state.history.slice(-20).reverse();
+  if(last.length===0){
+    w.innerHTML='<span style="color:var(--muted);font-size:12px;padding:6px">Aucune entrée</span>';return;
+  }
+  last.forEach(e=>{
+    const chip=document.createElement("div");chip.className="hist-chip";
+    if(e.v>=50)chip.classList.add("gold");
+    else if(e.v>=10)chip.classList.add("purple");
+    else if(e.v>=hi)chip.classList.add("green");
+    else if(e.v>=lo)chip.classList.add("blue");
+    else chip.classList.add("pink");
+    chip.textContent="×"+fmt(e.v);
+    chip.title=timeFromTs(e.t);
+    w.appendChild(chip);
+  });
+}
+
+/* ======= CHART ======= */
+function drawChart(){
+  const cvs=$("chart");if(!cvs)return;
+  const ctx=cvs.getContext("2d");
+  const dpr=window.devicePixelRatio||1;
+  const w=cvs.clientWidth,h=130;
+  cvs.width=w*dpr;cvs.height=h*dpr;
+  ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);
+
+  const data=state.history.slice(-30).map(x=>x.v);
+  if(data.length<2){
+    ctx.fillStyle="#8a92a6";ctx.font="12px 'Inter',sans-serif";ctx.textAlign="center";
+    ctx.fillText("Pas assez de données pour le graphique",w/2,h/2);
+    return;
+  }
+
+  const max=Math.max(...data,state.settings.highThreshold*1.2);
+  const min=1;
+  const step=w/(data.length-1);
+
+  // Grid
+  ctx.strokeStyle="rgba(255,255,255,.06)";ctx.lineWidth=1;
+  for(let i=0;i<4;i++){const y=(h/4)*i+4;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+
+  // Threshold
+  const hiY=h-((state.settings.highThreshold-min)/(max-min))*h;
+  ctx.strokeStyle="rgba(16,224,137,.4)";ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(0,hiY);ctx.lineTo(w,hiY);ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Fill
+  const grad=ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0,"rgba(168,85,247,.45)");
+  grad.addColorStop(1,"rgba(168,85,247,0)");
+  ctx.fillStyle=grad;ctx.beginPath();ctx.moveTo(0,h);
+  data.forEach((v,i)=>{const x=i*step;const y=h-((v-min)/(max-min))*h;ctx.lineTo(x,y);});
+  ctx.lineTo((data.length-1)*step,h);ctx.closePath();ctx.fill();
+
+  // Line
+  ctx.strokeStyle="#a855f7";ctx.lineWidth=2.5;ctx.beginPath();
+  data.forEach((v,i)=>{const x=i*step;const y=h-((v-min)/(max-min))*h;i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.stroke();
+
+  // Points
+  data.forEach((v,i)=>{
+    const x=i*step;const y=h-((v-min)/(max-min))*h;
+    ctx.beginPath();
+    ctx.fillStyle=v>=state.settings.highThreshold?"#10e089":v<state.settings.lowThreshold?"#ff3b55":"#38bdf8";
+    ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fill();
+  });
+}
+
+/* ======= PREDICTION ENGINE V4 (fusion Mamiratra + NGU) ======= */
+function computeOffset_V4(tourIdx,originSec,cfg){
+  const seed=hashSeed(Math.floor(originSec/3600),Math.floor((originSec%3600)/60),Math.floor(originSec%60),tourIdx);
+
+  // 5 composants
+  const baseOff=cfg.baseOffsets[tourIdx%cfg.baseOffsets.length];
+  const comp1=baseOff+(sRand(seed+0.3)-0.5)*14;
+
+  const fibVal=cfg.fibonacci[tourIdx%cfg.fibonacci.length]*2.5;
+  const goldenVal=(cfg.phi*(tourIdx+1))%15;
+  const comp2=cfg.offsetBase+fibVal+goldenVal;
+
+  const comp3=cfg.observedMean+Math.sin(originSec*0.001+tourIdx*0.8)*20;
+
+  const comp4=cfg.observedMin+mixHash(originSec,tourIdx*17+53)*(cfg.observedMax-cfg.observedMin);
+
+  const gapBase=cfg.gapBase[tourIdx%cfg.gapBase.length];
+  const comp5=cfg.offsetBase+(gapBase+(sRand(seed+tourIdx*3.7)-0.5)*cfg.gapVariance*2)*tourIdx;
+
+  // 6e composant : EMA live history (si disponible)
+  let emaFactor=1;
+  if(state.history.length>=3){
+    const vals=state.history.map(x=>x.v);
+    let ema=vals[0];
+    for(let i=1;i<vals.length;i++)ema=state.settings.alpha*vals[i]+(1-state.settings.alpha)*ema;
+    const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
+    emaFactor=1+((ema-avg)/avg)*0.05; // ±5% max
+  }
+
+  let offset=(comp1*0.35+comp2*0.22+comp3*0.15+comp4*0.12+comp5*0.16)*emaFactor;
+  offset=Math.max(cfg.observedMin-20,Math.min(cfg.observedMax+30,offset));
+     </div>
+
+      <!-- TOURS GRID -->
+      <div class="block fade-in">
+        <div class="block-title">🎰 Tours Prédits</div>
+        <div class="tours-grid" id="toursGrid"></div>
+      </div>
+
+      <!-- BAR CHART -->
+      <div class="block fade-in">
+        <div class="block-title">📊 Multiplicateurs Visuels</div>
+        <div id="barChart"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== TAB ANALYSIS ====== -->
+  <div id="tab-analysis" class="hidden">
+    <div class="block">
+      <div class="block-title">🔬 Rapport d'Analyse IA Approfondie</div>
+      <div class="ai-box" id="deepAnalysisReport">
+        <span class="ai-tag">🤖 En attente de données</span><br><br>
+        Lancez une prédiction ou ajoutez des multiplicateurs dans l'onglet <strong>Live</strong> pour générer le rapport complet.
+      </div>
+    </div>
+    <button class="btn btn-primary" id="btnDeepAnalysis" style="width:100%;margin-top:8px">🧠 Générer Analyse Approfondie</button>
+  </div>
+
+  <!-- ====== TAB HISTORY ====== -->
+  <div id="tab-history" class="hidden">
+    <div class="block">
+      <div class="block-title">📋 Historique des Prédictions</div>
+      <div id="historyList" style="font-size:12.5px;color:#c7cbd8">
+        <p style="text-align:center;color:var(--muted);padding:20px">Aucune prédiction enregistrée.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <b>⚠️ Avertissement :</b> Aviator utilise un <b>RNG provably fair</b> certifié.
+    Aucun logiciel ne peut prédire les résultats avec certitude. Cet outil est une
+    <b>aide statistique</b> combinant EMA, Fibonacci, Golden Ratio (φ) et analyse de patterns.
+    Jouez de manière responsable — ne misez jamais plus que ce que vous pouvez perdre.
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <b style="color:var(--gold)">NGU × Mamiratra ULTRA v4.0</b><br>
+    Fusion de 3 moteurs : EMA Analyser + Mamiratra Multi-Patterns + Premium Fibonacci<br>
+    🧬 6 composants algorithmiques • 3 modes • 100% client-side
+  </div>
+
+</div>
+
+<!-- INFO MODAL -->
+<div class="modal-bg" id="infoModal">
+  <div class="modal">
+    <h3>ℹ️ Ultra v4.0 — Guide</h3>
+    <p><b>🎯 But :</b> analyser les multiplicateurs Aviator via 6 algorithmes fusionnés.</p>
+    <p><b>📊 Onglets :</b></p>
+    <p>• <b>Live</b> — Ajoute des multiplicateurs observés en temps réel, EMA + détection de patterns<br>
+       • <b>Prédiction</b> — Entre HH:MM:SS + Facteur X pour des prédictions temporelles<br>
+       • <b>IA</b> — Rapport d'analyse approfondie avec corrélation Pearson<br>
+       • <b>Historique</b> — Toutes tes prédictions sauvegardées</p>
+    <p><b>🧬 Algorithmes fusionnés :</b></p>
+    <p>• Moyenne Mobile Exponentielle (EMA, α=0.3)<br>
+       • Offsets observés [158s-294s]<br>
+       • Suite de Fibonacci<br>
+       • Golden Ratio φ = 1.618<br>
+       • Modulation sinusoïdale<br>
+       • PRNG hash-based (xorshift)</p>
+    <p><b>⚠️ Rappel :</b> RNG = imprévisible. Cet outil est un assistant, pas un oracle.</p>
+    <button class="close-btn" onclick="document.getElementById('infoModal').classList.remove('on')">Compris</button>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-bg" id="setModal">
+  <div class="modal">
+    <h3>⚙️ Paramètres</h3>
+    <label>Seuil "haut" (×) <input id="setHigh" type="number" step="0.1" min="1.5" value="3"></label>
+    <label>Seuil "bas" (×) <input id="setLow" type="number" step="0.1" min="1" value="2"></label>
+    <label>Cashout recommandé (×) <input id="setCashout" type="number" step="0.1" min="1.1" value="1.5"></label>
+    <label>Durée d'un tour (sec) <input id="setRound" type="number" step="1" min="5" value="20"></label>
+    <label>EMA Alpha (0-1) <input id="setAlpha" type="number" step="0.05" min="0.1" max="0.9" value="0.3"></label>
+    <button class="close-btn" id="saveSettings">💾 Enregistrer</button>
+  </div>
+</div>
+
 <div class="toast" id="toast">OK</div>
 
 <script>
