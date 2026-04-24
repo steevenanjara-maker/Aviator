@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="theme-color" content="#0a0f1f" />
-<title>Fusion Aviator Analyzer X4 - Corrigé</title>
+<title>Fusion Aviator Analyzer X5 - Big Win Detector</title>
 
 <style>
 :root{
@@ -21,20 +21,19 @@
   --blue:#418dff;
   --purple:#9b6dff;
   --pink:#ff4d7d;
+  --gold:#ffd700;
   --green:#19db88;
   --amber:#ffb84d;
   --red:#ff5b66;
   --grad1:linear-gradient(135deg,#ff4d7d 0%, #9b6dff 50%, #418dff 100%);
   --grad2:linear-gradient(135deg,#19db88 0%, #63d5ff 100%);
   --grad3:linear-gradient(135deg,#ffb84d 0%, #ff5b66 100%);
+  --gradGold:linear-gradient(135deg,#ffd700 0%, #ff8c00 50%, #ff4d7d 100%);
   --shadow:0 18px 40px rgba(0,0,0,.32);
   --radius:18px;
 }
 
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
 html,body{
   margin:0;
@@ -50,9 +49,7 @@ html,body{
 
 body::before{
   content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
+  position:fixed; inset:0; pointer-events:none;
   background-image:
     linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
@@ -61,13 +58,7 @@ body::before{
   -webkit-mask-image:radial-gradient(circle at center, rgba(0,0,0,.9), transparent 85%);
 }
 
-.app{
-  position:relative;
-  z-index:1;
-  max-width:560px;
-  margin:0 auto;
-  padding:14px 14px 34px;
-}
+.app{ position:relative; z-index:1; max-width:560px; margin:0 auto; padding:14px 14px 34px; }
 
 .panel{
   background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
@@ -79,87 +70,30 @@ body::before{
   -webkit-backdrop-filter:blur(14px);
 }
 
-/* HEADER */
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:14px;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
+.header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }
+.brand{ display:flex; align-items:center; gap:12px; }
 .logo{
-  width:48px;
-  height:48px;
-  border-radius:15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  width:48px; height:48px; border-radius:15px;
+  display:flex; align-items:center; justify-content:center;
   font-size:24px;
   background:var(--grad1);
   box-shadow:0 10px 26px rgba(155,109,255,.35);
 }
-.title-wrap h1{
-  margin:0;
-  font-size:18px;
-  line-height:1.1;
-  font-weight:800;
-  letter-spacing:.2px;
-}
-.title-wrap .sub{
-  margin-top:4px;
-  color:var(--muted);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:1.4px;
-}
+.title-wrap h1{ margin:0; font-size:17px; line-height:1.1; font-weight:800; letter-spacing:.2px; }
+.title-wrap .sub{ margin-top:4px; color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:1.4px; }
 .status{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 12px;
-  border-radius:999px;
-  border:1px solid rgba(25,219,136,.22);
-  background:rgba(25,219,136,.08);
-  color:#b8ffdf;
-  font-size:11px;
-  white-space:nowrap;
+  display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+  border:1px solid rgba(25,219,136,.22); background:rgba(25,219,136,.08);
+  color:#b8ffdf; font-size:11px; white-space:nowrap;
 }
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 12px rgba(25,219,136,.8);
-  animation:pulseDot 1.2s infinite;
-}
-@keyframes pulseDot{
-  0%,100%{opacity:1; transform:scale(1)}
-  50%{opacity:.35; transform:scale(.85)}
-}
+.dot{ width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 12px rgba(25,219,136,.8); animation:pulseDot 1.2s infinite; }
+@keyframes pulseDot{ 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.35; transform:scale(.85)} }
 
-/* MODE */
-.mode-row{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin:8px 0 14px;
-}
+.mode-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:8px 0 14px; }
 .mode-btn{
-  border:none;
-  border-radius:14px;
-  padding:12px 8px;
-  cursor:pointer;
-  background:rgba(255,255,255,.04);
-  color:var(--muted);
-  border:1px solid var(--line);
-  font-size:13px;
-  font-weight:700;
-  transition:.22s;
+  border:none; border-radius:14px; padding:12px 8px; cursor:pointer;
+  background:rgba(255,255,255,.04); color:var(--muted);
+  border:1px solid var(--line); font-size:13px; font-weight:700; transition:.22s;
 }
 .mode-btn.active{
   color:#fff;
@@ -169,483 +103,276 @@ body::before{
 }
 .mode-btn:active{ transform:scale(.98); }
 
-/* CARDS */
 .card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:14px;
-  margin-bottom:12px;
+  background:var(--card); border:1px solid var(--line);
+  border-radius:var(--radius); padding:14px; margin-bottom:12px;
 }
-.card-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:12px;
-}
-.card-title strong{
-  font-size:12px;
-  letter-spacing:1.2px;
-  text-transform:uppercase;
-  color:#dfe8ff;
-}
+.card-title{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+.card-title strong{ font-size:12px; letter-spacing:1.2px; text-transform:uppercase; color:#dfe8ff; }
 .mini-badge{
-  font-size:10px;
-  padding:5px 8px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  color:var(--muted);
-  background:rgba(255,255,255,.03);
+  font-size:10px; padding:5px 8px; border-radius:999px;
+  border:1px solid var(--line); color:var(--muted); background:rgba(255,255,255,.03);
 }
 
-/* INPUTS */
-.grid-2{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-.grid-3{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:10px;
-}
-.field{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-.label{
-  font-size:11px;
-  color:var(--muted);
-  letter-spacing:.6px;
-}
+.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.field{ display:flex; flex-direction:column; gap:6px; }
+.label{ font-size:11px; color:var(--muted); letter-spacing:.6px; }
 .input{
-  width:100%;
-  height:48px;
-  border-radius:14px;
-  border:1px solid var(--line2);
-  background:rgba(255,255,255,.05);
-  color:#fff;
-  padding:0 14px;
-  outline:none;
-  font-size:15px;
-  transition:.2s;
+  width:100%; height:48px; border-radius:14px;
+  border:1px solid var(--line2); background:rgba(255,255,255,.05);
+  color:#fff; padding:0 14px; outline:none; font-size:15px; transition:.2s;
 }
-.input:focus{
-  border-color:rgba(99,213,255,.48);
-  box-shadow:0 0 0 4px rgba(99,213,255,.10);
-}
-.input.center{
-  text-align:center;
-  font-variant-numeric:tabular-nums;
-  font-weight:700;
-}
-.quick-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:10px;
-}
+.input:focus{ border-color:rgba(99,213,255,.48); box-shadow:0 0 0 4px rgba(99,213,255,.10); }
+.input.center{ text-align:center; font-variant-numeric:tabular-nums; font-weight:700; }
+
+.quick-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
 .quick-btn{
-  border:none;
-  cursor:pointer;
-  padding:9px 12px;
-  border-radius:999px;
-  background:rgba(255,255,255,.05);
-  border:1px solid var(--line);
-  color:#fff;
-  font-size:12px;
-  font-weight:700;
+  border:none; cursor:pointer; padding:9px 12px; border-radius:999px;
+  background:rgba(255,255,255,.05); border:1px solid var(--line);
+  color:#fff; font-size:12px; font-weight:700;
 }
 .quick-btn.low{ color:#ffc0cb; border-color:rgba(255,91,102,.22); }
 .quick-btn.mid{ color:#b8d8ff; border-color:rgba(65,141,255,.22); }
 .quick-btn.high{ color:#c9ffe8; border-color:rgba(25,219,136,.22); }
+.quick-btn.mega{ color:#ffe8a0; border-color:rgba(255,215,0,.35); }
 .quick-btn:active{ transform:scale(.96); }
 
-.action-row{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-top:12px;
-}
+.action-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:12px; }
 .btn{
-  border:none;
-  border-radius:14px;
-  padding:13px 10px;
-  cursor:pointer;
-  font-size:13px;
-  font-weight:800;
-  letter-spacing:.3px;
-  color:#fff;
-  transition:.2s;
+  border:none; border-radius:14px; padding:13px 10px; cursor:pointer;
+  font-size:13px; font-weight:800; letter-spacing:.3px; color:#fff; transition:.2s;
 }
 .btn.primary{ background:var(--grad1); }
 .btn.success{ background:var(--grad2); }
-.btn.dark{
-  background:rgba(255,255,255,.05);
-  border:1px solid var(--line);
-}
+.btn.dark{ background:rgba(255,255,255,.05); border:1px solid var(--line); }
 .btn.warn{ background:var(--grad3); }
 .btn:active{ transform:scale(.98); }
 
-/* STATS */
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
+.stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
 .stat{
-  border-radius:16px;
-  padding:12px 8px;
-  text-align:center;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--line);
+  border-radius:16px; padding:12px 8px; text-align:center;
+  background:rgba(255,255,255,.04); border:1px solid var(--line);
 }
-.stat .value{
-  font-size:18px;
-  font-weight:900;
-  font-variant-numeric:tabular-nums;
-}
-.stat .label{
-  font-size:10px;
-  margin-top:5px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
+.stat .value{ font-size:17px; font-weight:900; font-variant-numeric:tabular-nums; }
+.stat .label{ font-size:10px; margin-top:5px; text-transform:uppercase; letter-spacing:1px; }
 .value.green{ color:var(--green); }
 .value.blue{ color:var(--cyan); }
 .value.purple{ color:#cab4ff; }
 .value.red{ color:#ff9ea7; }
 .value.amber{ color:#ffd28e; }
+.value.gold{ color:var(--gold); }
+
+/* ===== BIG WIN ALERT (nouveau) ===== */
+.bigwin-alert{
+  position:relative;
+  overflow:hidden;
+  padding:16px;
+  border-radius:20px;
+  border:2px solid rgba(255,215,0,.35);
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255,215,0,.22), transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(255,77,125,.22), transparent 50%),
+    linear-gradient(135deg, rgba(255,215,0,.08), rgba(255,77,125,.08));
+  margin-bottom:12px;
+  transition:.3s;
+}
+.bigwin-alert.idle{
+  border-color:rgba(255,255,255,.12);
+  background:rgba(255,255,255,.03);
+}
+.bigwin-alert.hot{
+  border-color:rgba(255,215,0,.65);
+  box-shadow:0 0 28px rgba(255,215,0,.30), inset 0 0 18px rgba(255,215,0,.10);
+  animation:goldPulse 1.6s infinite;
+}
+@keyframes goldPulse{
+  0%,100%{ box-shadow:0 0 28px rgba(255,215,0,.30), inset 0 0 18px rgba(255,215,0,.10); }
+  50%{ box-shadow:0 0 40px rgba(255,215,0,.55), inset 0 0 24px rgba(255,215,0,.22); }
+}
+.bigwin-head{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.bigwin-title{
+  display:flex; align-items:center; gap:8px;
+  font-size:13px; font-weight:900; letter-spacing:1.2px; text-transform:uppercase;
+}
+.bigwin-icon{ font-size:22px; }
+.bigwin-status{
+  font-size:10px; padding:5px 10px; border-radius:999px;
+  background:rgba(255,255,255,.08); font-weight:800; letter-spacing:1px;
+}
+.bigwin-status.hot{ background:var(--gradGold); color:#1a1300; }
+.bigwin-main{
+  margin-top:10px;
+  font-size:30px; font-weight:900; line-height:1;
+  background:var(--gradGold);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.bigwin-time{ margin-top:7px; font-size:14px; color:#ffe6a0; font-variant-numeric:tabular-nums; }
+.bigwin-reasons{
+  margin-top:10px; display:flex; flex-wrap:wrap; gap:6px;
+}
+.reason-chip{
+  padding:5px 9px; border-radius:10px;
+  background:rgba(255,215,0,.10); border:1px solid rgba(255,215,0,.25);
+  color:#ffe8a0; font-size:10.5px; font-weight:700;
+}
+.bigwin-prob{
+  margin-top:10px; display:flex; gap:10px; align-items:center;
+}
+.prob-bar{
+  flex:1; height:10px; border-radius:999px; overflow:hidden;
+  background:rgba(255,255,255,.08);
+}
+.prob-bar > span{ display:block; height:100%; width:0%; background:var(--gradGold); transition:width .7s ease; }
+.prob-val{ font-size:14px; font-weight:900; color:var(--gold); font-variant-numeric:tabular-nums; }
 
 /* HERO */
 .hero{
-  padding:16px;
-  border-radius:20px;
+  padding:16px; border-radius:20px;
   background:
     radial-gradient(circle at 10% 20%, rgba(255,77,125,.18), transparent 35%),
     radial-gradient(circle at 90% 20%, rgba(99,213,255,.16), transparent 38%),
     linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
   border:1px solid var(--line2);
 }
-.hero-top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:10px;
-}
-.hero-title{
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:1.5px;
-  color:var(--muted);
-}
+.hero-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+.hero-title{ font-size:12px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); }
 .hero-big{
-  margin-top:8px;
-  font-size:32px;
-  line-height:1;
-  font-weight:900;
-  background:var(--grad2);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  margin-top:8px; font-size:32px; line-height:1; font-weight:900;
+  background:var(--grad2); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
 }
-.hero-time{
-  margin-top:7px;
-  font-size:15px;
-  color:#dce8ff;
-  font-variant-numeric:tabular-nums;
-}
-.hero-side{
-  text-align:right;
-}
-.conf-label{
-  font-size:11px;
-  color:var(--muted);
-}
-.conf-value{
-  font-size:18px;
-  font-weight:800;
-}
-.progress{
-  margin-top:10px;
-  width:110px;
-  height:9px;
-  border-radius:999px;
-  overflow:hidden;
-  background:rgba(255,255,255,.08);
-}
-.progress > span{
-  display:block;
-  height:100%;
-  width:0%;
-  background:var(--grad2);
-  transition:width .7s ease;
-}
-.hero-note{
-  margin-top:12px;
-  font-size:13px;
-  color:#d7e1ff;
-  line-height:1.5;
-}
+.hero-time{ margin-top:7px; font-size:15px; color:#dce8ff; font-variant-numeric:tabular-nums; }
+.hero-side{ text-align:right; }
+.conf-label{ font-size:11px; color:var(--muted); }
+.conf-value{ font-size:18px; font-weight:800; }
+.progress{ margin-top:10px; width:110px; height:9px; border-radius:999px; overflow:hidden; background:rgba(255,255,255,.08); }
+.progress > span{ display:block; height:100%; width:0%; background:var(--grad2); transition:width .7s ease; }
+.hero-note{ margin-top:12px; font-size:13px; color:#d7e1ff; line-height:1.5; }
+
 /* PROJECTIONS */
-.pred-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
+.pred-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .pred{
-  position:relative;
-  overflow:hidden;
-  border-radius:18px;
-  padding:14px;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--line);
+  position:relative; overflow:hidden;
+  border-radius:18px; padding:14px;
+  background:rgba(255,255,255,.04); border:1px solid var(--line);
   min-height:150px;
 }
 .pred::before{
-  content:"";
-  position:absolute;
-  inset:auto -20% -50% auto;
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  filter:blur(30px);
-  opacity:.2;
+  content:""; position:absolute; inset:auto -20% -50% auto;
+  width:120px; height:120px; border-radius:50%; filter:blur(30px); opacity:.2;
 }
 .pred.p1::before{ background:var(--green); }
 .pred.p2::before{ background:var(--blue); }
 .pred.p3::before{ background:var(--amber); }
 .pred.p4::before{ background:var(--pink); }
+.pred.p5::before{ background:var(--gold); }
+.pred.p5{ border-color:rgba(255,215,0,.28); }
 
-.pred-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-}
-.pred-name{
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:1px;
-}
-.pred-risk{
-  font-size:10px;
-  padding:5px 8px;
-  border-radius:999px;
-  font-weight:700;
-}
+.pred-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.pred-name{ font-size:12px; font-weight:800; letter-spacing:1px; }
+.pred-risk{ font-size:10px; padding:5px 8px; border-radius:999px; font-weight:700; }
 .risk-low{ background:rgba(25,219,136,.12); color:#bcffe1; }
 .risk-mid{ background:rgba(65,141,255,.12); color:#c8dcff; }
 .risk-high{ background:rgba(255,184,77,.12); color:#ffe0b0; }
 .risk-x{ background:rgba(255,91,102,.12); color:#ffc2c8; }
+.risk-mega{ background:rgba(255,215,0,.14); color:#ffe28a; }
 
-.pred-main{
-  margin-top:12px;
-  font-size:27px;
-  font-weight:900;
-  line-height:1;
-}
-.pred-range{
-  margin-top:8px;
-  font-size:13px;
-  color:#dfe6fb;
-  font-variant-numeric:tabular-nums;
-}
-.pred-time{
-  margin-top:10px;
-  font-size:12px;
-  color:var(--cyan);
-  font-variant-numeric:tabular-nums;
-}
-.pred-foot{
-  margin-top:10px;
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  font-size:11px;
-  color:var(--muted);
-}
-.score{
-  font-weight:800;
-  color:#fff;
-}
+.pred-main{ margin-top:12px; font-size:27px; font-weight:900; line-height:1; }
+.pred-range{ margin-top:8px; font-size:13px; color:#dfe6fb; font-variant-numeric:tabular-nums; }
+.pred-time{ margin-top:10px; font-size:12px; color:var(--cyan); font-variant-numeric:tabular-nums; }
+.pred-foot{ margin-top:10px; display:flex; justify-content:space-between; gap:10px; font-size:11px; color:var(--muted); }
+.score{ font-weight:800; color:#fff; }
 
 /* ANALYSIS BLOCKS */
-.info-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
+.info-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .info-box{
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:12px;
+  background:rgba(255,255,255,.04); border:1px solid var(--line);
+  border-radius:16px; padding:12px;
 }
-.info-box .k{
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  color:var(--muted);
-}
-.info-box .v{
-  margin-top:8px;
-  font-size:18px;
-  font-weight:800;
-  font-variant-numeric:tabular-nums;
-}
-.info-box .s{
-  margin-top:6px;
+.info-box .k{ font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
+.info-box .v{ margin-top:8px; font-size:18px; font-weight:800; font-variant-numeric:tabular-nums; }
+.info-box .s{ margin-top:6px; font-size:12px; color:#d3ddf8; line-height:1.45; }
+
+/* PATTERNS DETECTED */
+.patterns-list{ display:flex; flex-direction:column; gap:8px; }
+.pattern-item{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:12px;
+  background:rgba(255,255,255,.04); border:1px solid var(--line);
   font-size:12px;
-  color:#d3ddf8;
-  line-height:1.45;
 }
+.pattern-item.active{
+  background:rgba(255,215,0,.08);
+  border-color:rgba(255,215,0,.28);
+}
+.pattern-item .p-ico{ font-size:18px; }
+.pattern-item .p-text{ flex:1; color:#d7e1ff; }
+.pattern-item .p-text strong{ color:#fff; }
+.pattern-item .p-state{ font-size:10px; padding:4px 8px; border-radius:999px; font-weight:800; }
+.pattern-item .p-state.off{ background:rgba(255,255,255,.06); color:var(--muted); }
+.pattern-item .p-state.on{ background:rgba(255,215,0,.20); color:#ffe18a; }
 
 /* TIMELINE */
-.timeline{
-  position:relative;
-  padding-left:22px;
-}
+.timeline{ position:relative; padding-left:22px; }
 .timeline::before{
-  content:"";
-  position:absolute;
-  left:8px;
-  top:4px;
-  bottom:4px;
-  width:2px;
+  content:""; position:absolute; left:8px; top:4px; bottom:4px; width:2px;
   background:linear-gradient(180deg, var(--pink), var(--purple), var(--cyan));
 }
-.t-item{
-  position:relative;
-  padding:10px 0 10px 12px;
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
-}
+.t-item{ position:relative; padding:10px 0 10px 12px; display:flex; justify-content:space-between; gap:10px; align-items:center; }
 .t-item::before{
-  content:"";
-  position:absolute;
-  left:-18px;
-  top:50%;
-  transform:translateY(-50%);
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:var(--blue);
-  border:2px solid var(--bg1);
+  content:""; position:absolute; left:-18px; top:50%; transform:translateY(-50%);
+  width:10px; height:10px; border-radius:50%; background:var(--blue); border:2px solid var(--bg1);
 }
-.t-item.best::before{
-  background:var(--green);
-  box-shadow:0 0 12px rgba(25,219,136,.7);
-}
-.t-left{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-}
+.t-item.best::before{ background:var(--green); box-shadow:0 0 12px rgba(25,219,136,.7); }
+.t-item.mega::before{ background:var(--gold); box-shadow:0 0 12px rgba(255,215,0,.7); }
+.t-left{ display:flex; flex-direction:column; gap:4px; }
 .t-left strong{ font-size:13px; }
 .t-left span{ font-size:11px; color:var(--muted); }
-.t-right{
-  text-align:right;
-}
-.t-right .tt{
-  font-size:13px;
-  color:var(--cyan);
-  font-variant-numeric:tabular-nums;
-}
-.t-right .tm{
-  margin-top:4px;
-  font-size:15px;
-  font-weight:800;
-}
+.t-right{ text-align:right; }
+.t-right .tt{ font-size:13px; color:var(--cyan); font-variant-numeric:tabular-nums; }
+.t-right .tm{ margin-top:4px; font-size:15px; font-weight:800; }
 
 /* HISTORY */
-.history{
-  display:flex;
-  gap:8px;
-  overflow:auto;
-  padding-bottom:4px;
-  scrollbar-width:none;
-}
+.history{ display:flex; gap:8px; overflow:auto; padding-bottom:4px; scrollbar-width:none; }
 .history::-webkit-scrollbar{ display:none; }
 .chip{
-  flex:0 0 auto;
-  padding:8px 12px;
-  border-radius:12px;
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.05);
-  font-weight:800;
-  font-size:12px;
-  font-variant-numeric:tabular-nums;
-  cursor:default;
+  flex:0 0 auto; padding:8px 12px; border-radius:12px;
+  border:1px solid var(--line); background:rgba(255,255,255,.05);
+  font-weight:800; font-size:12px; font-variant-numeric:tabular-nums; cursor:default;
 }
 .chip.low{ color:#ffb9c0; border-color:rgba(255,91,102,.18); }
 .chip.mid{ color:#b8d8ff; border-color:rgba(65,141,255,.18); }
 .chip.high{ color:#c1ffe2; border-color:rgba(25,219,136,.18); }
-.chip.x{ color:#e2ccff; border-color:rgba(155,109,255,.24); }
+.chip.mega{ color:#ffe18a; border-color:rgba(255,215,0,.35); background:rgba(255,215,0,.08); }
 
 /* CHART */
 .chart-wrap{
-  background:rgba(255,255,255,.03);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:10px;
+  background:rgba(255,255,255,.03); border:1px solid var(--line);
+  border-radius:18px; padding:10px;
 }
-canvas{
-  width:100%;
-  display:block;
-  border-radius:12px;
-}
+canvas{ width:100%; display:block; border-radius:12px; }
 
-/* TEXT */
-.text-block{
-  line-height:1.6;
-  color:#d9e4ff;
-  font-size:13px;
-}
+.text-block{ line-height:1.6; color:#d9e4ff; font-size:13px; }
 .text-block strong{ color:#fff; }
-.note{
-  margin-top:10px;
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.55;
-}
+.note{ margin-top:10px; font-size:12px; color:var(--muted); line-height:1.55; }
 
-/* FOOTER */
 .footer{
-  margin-top:14px;
-  padding:12px;
-  border-radius:16px;
-  background:rgba(255,91,102,.08);
-  border:1px solid rgba(255,91,102,.20);
-  color:#ffc0c7;
-  font-size:12px;
-  line-height:1.55;
+  margin-top:14px; padding:12px; border-radius:16px;
+  background:rgba(255,91,102,.08); border:1px solid rgba(255,91,102,.20);
+  color:#ffc0c7; font-size:12px; line-height:1.55;
 }
 
-/* TOAST */
 .toast{
-  position:fixed;
-  left:50%;
-  bottom:18px;
+  position:fixed; left:50%; bottom:18px;
   transform:translateX(-50%) translateY(90px);
-  opacity:0;
-  z-index:200;
-  padding:11px 16px;
-  border-radius:14px;
-  background:rgba(18,24,42,.96);
-  border:1px solid var(--line2);
-  color:#fff;
-  font-size:13px;
-  box-shadow:var(--shadow);
-  transition:.28s;
+  opacity:0; z-index:200;
+  padding:11px 16px; border-radius:14px;
+  background:rgba(18,24,42,.96); border:1px solid var(--line2);
+  color:#fff; font-size:13px; box-shadow:var(--shadow); transition:.28s;
 }
-.toast.show{
-  transform:translateX(-50%) translateY(0);
-  opacity:1;
-}
+.toast.show{ transform:translateX(-50%) translateY(0); opacity:1; }
 
 @media (max-width:480px){
   .action-row{ grid-template-columns:1fr 1fr; }
@@ -666,8 +393,8 @@ canvas{
       <div class="brand">
         <div class="logo">✈️</div>
         <div class="title-wrap">
-          <h1>Fusion Aviator Analyzer X4</h1>
-          <div class="sub">Analyse statistique fusionnée · historique + timing + 4 projections</div>
+          <h1>Fusion Aviator Analyzer X5</h1>
+          <div class="sub">Big Win Detector · 5 projections · 6 patterns vidéo</div>
         </div>
       </div>
       <div class="status">
@@ -682,10 +409,27 @@ canvas{
       <button class="mode-btn" data-mode="safe">🛡️ Prudent</button>
     </div>
 
+    <!-- ===== BIG WIN ALERT ===== -->
+    <div class="bigwin-alert idle" id="bigWinAlert">
+      <div class="bigwin-head">
+        <div class="bigwin-title"><span class="bigwin-icon">💎</span> Gros Gain Detector</div>
+        <div class="bigwin-status" id="bigWinStatus">VEILLE</div>
+      </div>
+      <div class="bigwin-main" id="bigWinMulti">×--</div>
+      <div class="bigwin-time" id="bigWinTime">Fenêtre estimée : --:--:--</div>
+      <div class="bigwin-reasons" id="bigWinReasons">
+        <span class="reason-chip">Ajoute des données pour activer</span>
+      </div>
+      <div class="bigwin-prob">
+        <div class="prob-bar"><span id="bigWinBar"></span></div>
+        <div class="prob-val" id="bigWinProb">0%</div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-title">
         <strong>Entrées fusionnées</strong>
-        <span class="mini-badge">HTML corrigé</span>
+        <span class="mini-badge">X5 enhanced</span>
       </div>
 
       <div class="grid-2">
@@ -705,22 +449,25 @@ canvas{
           <input id="highThreshold" class="input center" type="number" step="0.1" min="1.5" value="3">
         </div>
         <div class="field">
-          <label class="label" for="lowThreshold">Seuil bas</label>
-          <input id="lowThreshold" class="input center" type="number" step="0.1" min="1" value="2">
+          <label class="label" for="megaThreshold">Seuil méga</label>
+          <input id="megaThreshold" class="input center" type="number" step="0.5" min="5" value="10">
         </div>
         <div class="field">
-          <label class="label" for="roundDuration">Durée tour (sec)</label>
-          <input id="roundDuration" class="input center" type="number" step="1" min="5" value="20">
+          <label class="label" for="lowThreshold">Seuil bas</label>
+          <input id="lowThreshold" class="input center" type="number" step="0.1" min="1" value="2">
         </div>
       </div>
 
       <div class="quick-row">
+        <button class="quick-btn low" data-quick="1.00">×1.00</button>
         <button class="quick-btn low" data-quick="1.20">×1.20</button>
         <button class="quick-btn low" data-quick="1.50">×1.50</button>
         <button class="quick-btn mid" data-quick="2.00">×2.00</button>
         <button class="quick-btn mid" data-quick="3.00">×3.00</button>
         <button class="quick-btn high" data-quick="5.00">×5.00</button>
-        <button class="quick-btn high" data-quick="10.00">×10.00</button>
+        <button class="quick-btn high" data-quick="8.00">×8.00</button>
+        <button class="quick-btn mega" data-quick="10.00">×10.00</button>
+        <button class="quick-btn mega" data-quick="25.00">×25.00</button>
       </div>
 
       <div class="action-row">
@@ -740,36 +487,27 @@ canvas{
       </div>
     </div>
 
+    <!-- ===== PATTERNS DÉTECTÉS (nouveau) ===== -->
+    <div class="card">
+      <div class="card-title">
+        <strong>Patterns détectés (vidéo)</strong>
+        <span class="mini-badge" id="patternsCount">0/6</span>
+      </div>
+      <div class="patterns-list" id="patternsList"></div>
+    </div>
+
     <div class="card">
       <div class="card-title">
         <strong>Stats fusion</strong>
         <span class="mini-badge" id="histCountBadge">0 entrée</span>
       </div>
       <div class="stats">
-        <div class="stat">
-          <div class="value green" id="stAvg">×0.00</div>
-          <div class="label">Moyenne</div>
-        </div>
-        <div class="stat">
-          <div class="value blue" id="stEma">×0.00</div>
-          <div class="label">EMA</div>
-        </div>
-        <div class="stat">
-          <div class="value purple" id="stVol">0.00</div>
-          <div class="label">Volatilité</div>
-        </div>
-        <div class="stat">
-          <div class="value amber" id="stGap">—</div>
-          <div class="label">Gap Haut</div>
-        </div>
-        <div class="stat">
-          <div class="value red" id="stLowStreak">0</div>
-          <div class="label">Série basse</div>
-        </div>
-        <div class="stat">
-          <div class="value blue" id="stFreq">0%</div>
-          <div class="label">Fréq. haut</div>
-        </div>
+        <div class="stat"><div class="value green" id="stAvg">×0.00</div><div class="label">Moyenne</div></div>
+        <div class="stat"><div class="value blue" id="stEma">×0.00</div><div class="label">EMA</div></div>
+        <div class="stat"><div class="value purple" id="stVol">0.00</div><div class="label">Volatilité</div></div>
+        <div class="stat"><div class="value amber" id="stGap">—</div><div class="label">Gap Haut</div></div>
+        <div class="stat"><div class="value gold" id="stGapMega">—</div><div class="label">Gap Méga</div></div>
+        <div class="stat"><div class="value red" id="stLowStreak">0</div><div class="label">Série basse</div></div>
       </div>
     </div>
 
@@ -788,15 +526,15 @@ canvas{
           </div>
         </div>
         <div class="hero-note" id="heroNote">
-          Ajoute des valeurs puis lance l’analyse pour générer une projection statistique principale.
+          Ajoute des valeurs puis lance l'analyse pour générer une projection statistique principale.
         </div>
       </div>
     </div>
 
     <div class="card">
       <div class="card-title">
-        <strong>4 projections statistiques</strong>
-        <span class="mini-badge">P1 à P4</span>
+        <strong>5 projections statistiques</strong>
+        <span class="mini-badge">P1 → P5 Méga</span>
       </div>
       <div class="pred-grid" id="predictionsGrid">
         <div class="pred p1">
@@ -811,7 +549,8 @@ canvas{
         </div>
       </div>
     </div>
-<div class="card">
+
+    <div class="card">
       <div class="card-title">
         <strong>Analyse temporelle et pattern</strong>
         <span class="mini-badge" id="patternBadge">Neutre</span>
@@ -825,7 +564,7 @@ canvas{
         <div class="info-box">
           <div class="k">Tendance détectée</div>
           <div class="v" id="trendLabel">Neutre</div>
-          <div class="s" id="trendText">La tendance sera calculée à partir de l’historique et des seuils.</div>
+          <div class="s" id="trendText">La tendance sera calculée à partir de l'historique et des seuils.</div>
         </div>
         <div class="info-box">
           <div class="k">Analyse des écarts</div>
@@ -847,14 +586,8 @@ canvas{
       </div>
       <div class="timeline" id="timeline">
         <div class="t-item">
-          <div class="t-left">
-            <strong>En attente</strong>
-            <span>Aucune projection calculée</span>
-          </div>
-          <div class="t-right">
-            <div class="tt">--:--:--</div>
-            <div class="tm">×--</div>
-          </div>
+          <div class="t-left"><strong>En attente</strong><span>Aucune projection calculée</span></div>
+          <div class="t-right"><div class="tt">--:--:--</div><div class="tm">×--</div></div>
         </div>
       </div>
     </div>
@@ -885,7 +618,8 @@ canvas{
         <span class="mini-badge">texte</span>
       </div>
       <div class="text-block" id="analysisText">
-        Cette version fusionne l’approche temps + écarts + modes avec historique + EMA + volatilité + import/export.
+        Version X5 : fusion temps + écarts + modes + EMA + volatilité + <strong>détection méga</strong> +
+        <strong>6 patterns</strong> tirés des vidéos (Cold Streak, Deep Crash, Cluster, Staircase, Rebound, Duplication).
       </div>
       <div class="note" id="analysisNote">
         Ajoute plusieurs valeurs pour obtenir une lecture plus stable.
@@ -894,7 +628,7 @@ canvas{
 
     <div class="footer">
       <strong>⚠️ Important :</strong> ce fichier fournit une <strong>analyse statistique</strong> et des
-      <strong>projections heuristiques</strong>. Il ne garantit aucun résultat certain.
+      <strong>projections heuristiques</strong>. Aviator utilise un RNG certifié (Provably Fair) : aucun outil ne peut garantir un résultat futur.
     </div>
 
   </div>
@@ -903,318 +637,324 @@ canvas{
 <div class="toast" id="toast">OK</div>
 
 <script>
-const STORAGE_KEY = "fusion_aviator_x4_history_fixed";
-const SETTINGS_KEY = "fusion_aviator_x4_settings_fixed";
+const STORAGE_KEY = "fusion_aviator_x5_history";
+const SETTINGS_KEY = "fusion_aviator_x5_settings";
 let countdownTimer = null;
 
+/* === PATTERNS TIRÉS DES VIDÉOS === */
+const PATTERN_DEFS = [
+  { id:"cold",     ico:"🧊", label:"Cold Streak",      desc:"3+ tours bas consécutifs → rebond probable >3x" },
+  { id:"deep",     ico:"💥", label:"Deep Crash",       desc:"Crash ×1.00 à ×1.15 observé → rebond dans 1–2 tours" },
+  { id:"cluster",  ico:"🔗", label:"Cluster Haut",     desc:"2+ hauts proches → phase 'payout' active" },
+  { id:"stairs",   ico:"📈", label:"Staircase",        desc:"3+ tours >2x sans chute → spike imminent" },
+  { id:"rebound",  ico:"🔄", label:"Post-Méga Cool",   desc:"Après méga : 1–3 tours bas de drainage" },
+  { id:"dupli",    ico:"♻️", label:"Duplication",      desc:"Multiplicateurs qui se répètent → break prévu" }
+];
+
 const MODE_CFG = {
-  standard: {
-    name: "Standard",
-    targetBoost: 1.00,
-    gapBias: 1.00,
-    confidenceBias: 0,
-    riskBias: 1.00
-  },
-  aggressive: {
-    name: "Agressif",
-    targetBoost: 1.18,
-    gapBias: 0.92,
-    confidenceBias: -5,
-    riskBias: 1.18
-  },
-  safe: {
-    name: "Prudent",
-    targetBoost: 0.90,
-    gapBias: 1.10,
-    confidenceBias: 6,
-    riskBias: 0.88
-  }
+  standard:  { name:"Standard",  targetBoost:1.00, gapBias:1.00, confidenceBias:0,  riskBias:1.00, bigWinBias:1.00 },
+  aggressive:{ name:"Agressif",  targetBoost:1.22, gapBias:0.90, confidenceBias:-4, riskBias:1.25, bigWinBias:1.35 },
+  safe:      { name:"Prudent",   targetBoost:0.88, gapBias:1.12, confidenceBias:6,  riskBias:0.85, bigWinBias:0.72 }
 };
 
 const state = {
-  mode: "standard",
-  history: [],
-  settings: {
-    highThreshold: 3,
-    lowThreshold: 2,
-    roundDuration: 20
-  },
-  lastAnalysis: null
+  mode:"standard",
+  history:[],
+  settings:{ highThreshold:3, megaThreshold:10, lowThreshold:2, roundDuration:20 },
+  lastAnalysis:null
 };
 
-const $ = (id) => document.getElementById(id);
-
-function clamp(v, min, max){
-  return Math.max(min, Math.min(max, v));
-}
-
-function round2(n){
-  return Math.round(Number(n) * 100) / 100;
-}
-
-function fmt2(n){
-  const x = Number.isFinite(Number(n)) ? Number(n) : 0;
-  return round2(x).toFixed(2);
-}
-
-function pad(n){
-  return String(n).padStart(2, "0");
-}
+const $ = id => document.getElementById(id);
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const round2 = n => Math.round(Number(n)*100)/100;
+const fmt2 = n => (Number.isFinite(Number(n)) ? round2(n) : 0).toFixed(2);
+const pad = n => String(n).padStart(2,"0");
 
 function toast(msg){
   const t = $("toast");
   t.textContent = msg;
   t.classList.add("show");
   clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove("show"), 1800);
+  t._timer = setTimeout(()=>t.classList.remove("show"), 1800);
 }
 
 function saveState(){
   try{
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state.history));
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify({
-      mode: state.mode,
-      settings: state.settings
-    }));
-  }catch(err){}
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify({ mode:state.mode, settings:state.settings }));
+  }catch(e){}
 }
 
 function loadState(){
   try{
-    const historyRaw = localStorage.getItem(STORAGE_KEY);
-    const settingsRaw = localStorage.getItem(SETTINGS_KEY);
-
-    if(historyRaw){
-      const parsedHistory = JSON.parse(historyRaw);
-      if(Array.isArray(parsedHistory)){
-        state.history = parsedHistory
-          .filter(item =>
-            item &&
-            Number.isFinite(Number(item.v)) &&
-            Number.isFinite(Number(item.t))
-          )
-          .map(item => ({
-            v: round2(Number(item.v)),
-            t: Number(item.t)
-          }));
+    const h = localStorage.getItem(STORAGE_KEY);
+    const s = localStorage.getItem(SETTINGS_KEY);
+    if(h){
+      const parsed = JSON.parse(h);
+      if(Array.isArray(parsed)){
+        state.history = parsed
+          .filter(it => it && Number.isFinite(+it.v) && Number.isFinite(+it.t))
+          .map(it => ({ v:round2(+it.v), t:+it.t }));
       }
     }
-
-    if(settingsRaw){
-      const parsedSettings = JSON.parse(settingsRaw);
-      if(parsedSettings && parsedSettings.settings){
-        state.settings = {
-          ...state.settings,
-          ...parsedSettings.settings
-        };
-      }
-      if(parsedSettings && parsedSettings.mode && MODE_CFG[parsedSettings.mode]){
-        state.mode = parsedSettings.mode;
-      }
+    if(s){
+      const ps = JSON.parse(s);
+      if(ps?.settings) state.settings = { ...state.settings, ...ps.settings };
+      if(ps?.mode && MODE_CFG[ps.mode]) state.mode = ps.mode;
     }
-  }catch(err){
-    console.error("Erreur chargement localStorage :", err);
-  }
+  }catch(e){ console.error(e); }
 }
 
 function setInputsFromState(){
   $("highThreshold").value = state.settings.highThreshold;
-  $("lowThreshold").value = state.settings.lowThreshold;
-  $("roundDuration").value = state.settings.roundDuration;
-
-  document.querySelectorAll(".mode-btn").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.mode === state.mode);
-  });
+  $("megaThreshold").value = state.settings.megaThreshold;
+  $("lowThreshold").value  = state.settings.lowThreshold;
+  document.querySelectorAll(".mode-btn").forEach(b => b.classList.toggle("active", b.dataset.mode === state.mode));
 }
 
 function syncSettingsFromInputs(){
   let high = parseFloat($("highThreshold").value);
-  let low = parseFloat($("lowThreshold").value);
-  let roundDuration = parseInt($("roundDuration").value, 10);
-
+  let mega = parseFloat($("megaThreshold").value);
+  let low  = parseFloat($("lowThreshold").value);
   if(!Number.isFinite(high) || high < 1.5) high = 3;
-  if(!Number.isFinite(low) || low < 1) low = 2;
-  if(!Number.isFinite(roundDuration) || roundDuration < 5) roundDuration = 20;
-
-  if(low >= high){
-    low = Math.max(1, round2(high - 0.5));
-    $("lowThreshold").value = low;
-  }
-
+  if(!Number.isFinite(mega) || mega < 5)   mega = 10;
+  if(!Number.isFinite(low)  || low  < 1)   low  = 2;
+  if(low >= high){ low = Math.max(1, round2(high - 0.5)); $("lowThreshold").value = low; }
+  if(mega <= high){ mega = Math.max(high + 2, 10); $("megaThreshold").value = mega; }
   state.settings.highThreshold = high;
-  state.settings.lowThreshold = low;
-  state.settings.roundDuration = roundDuration;
+  state.settings.megaThreshold = mega;
+  state.settings.lowThreshold  = low;
   saveState();
 }
 
 function formatTimeInput(el){
-  let v = el.value.replace(/[^\d]/g, "").slice(0, 6);
-  if(v.length >= 5){
-    el.value = v.slice(0,2) + ":" + v.slice(2,4) + ":" + v.slice(4,6);
-  }else if(v.length >= 3){
-    el.value = v.slice(0,2) + ":" + v.slice(2,4);
-  }else{
-    el.value = v;
-  }
+  let v = el.value.replace(/[^\d]/g,"").slice(0,6);
+  if(v.length >= 5)      el.value = v.slice(0,2)+":"+v.slice(2,4)+":"+v.slice(4,6);
+  else if(v.length >= 3) el.value = v.slice(0,2)+":"+v.slice(2,4);
+  else                   el.value = v;
 }
 
 function parseTimeToTimestamp(hms){
   if(!/^\d{2}:\d{2}:\d{2}$/.test(hms)) return null;
-  const [hh, mm, ss] = hms.split(":").map(Number);
-  if(hh > 23 || mm > 59 || ss > 59) return null;
-
-  const now = new Date();
-  return new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    hh, mm, ss
-  ).getTime();
+  const [h,m,s] = hms.split(":").map(Number);
+  if(h>23||m>59||s>59) return null;
+  const n = new Date();
+  return new Date(n.getFullYear(), n.getMonth(), n.getDate(), h, m, s).getTime();
 }
 
-function timeFromTs(ts){
+const timeFromTs = ts => {
   const d = new Date(ts);
   return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-}
+};
 
 function fillCurrentTime(){
   const d = new Date();
   $("timeInput").value = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 }
 
+/* === STATS === */
 function median(arr){
   if(!arr.length) return 0;
-  const s = [...arr].sort((a,b) => a-b);
-  const mid = Math.floor(s.length / 2);
-  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+  const s = [...arr].sort((a,b)=>a-b);
+  const m = Math.floor(s.length/2);
+  return s.length%2 ? s[m] : (s[m-1]+s[m])/2;
 }
-
 function stdDev(arr){
   if(!arr.length) return 0;
-  const avg = arr.reduce((a,b) => a+b, 0) / arr.length;
-  const variance = arr.reduce((a,b) => a + Math.pow(b - avg, 2), 0) / arr.length;
-  return Math.sqrt(variance);
+  const a = arr.reduce((x,y)=>x+y,0)/arr.length;
+  return Math.sqrt(arr.reduce((x,y)=>x+(y-a)**2,0)/arr.length);
 }
-
-function ema(arr, alpha = 0.34){
+function ema(arr, a=0.34){
   if(!arr.length) return 0;
   let e = arr[0];
-  for(let i = 1; i < arr.length; i++){
-    e = alpha * arr[i] + (1 - alpha) * e;
-  }
+  for(let i=1;i<arr.length;i++) e = a*arr[i] + (1-a)*e;
   return e;
 }
-
 function linearSlope(arr){
   if(arr.length < 2) return 0;
   const n = arr.length;
-  let sx = 0, sy = 0, sxy = 0, sxx = 0;
-
-  for(let i = 0; i < n; i++){
-    sx += i;
-    sy += arr[i];
-    sxy += i * arr[i];
-    sxx += i * i;
-  }
-
-  const denom = (n * sxx - sx * sx);
-  if(!denom) return 0;
-  return (n * sxy - sx * sy) / denom;
+  let sx=0,sy=0,sxy=0,sxx=0;
+  for(let i=0;i<n;i++){ sx+=i; sy+=arr[i]; sxy+=i*arr[i]; sxx+=i*i; }
+  const d = (n*sxx - sx*sx);
+  return d ? (n*sxy - sx*sy)/d : 0;
 }
-
 function averageRoundSeconds(history, fallback){
   if(history.length < 2) return fallback;
   const recent = history.slice(-8);
   const diffs = [];
-
-  for(let i = 1; i < recent.length; i++){
-    const diff = (recent[i].t - recent[i - 1].t) / 1000;
-    if(diff > 0 && diff < 300){
-      diffs.push(diff);
-    }
+  for(let i=1;i<recent.length;i++){
+    const d = (recent[i].t - recent[i-1].t)/1000;
+    if(d>0 && d<300) diffs.push(d);
   }
-
   if(!diffs.length) return fallback;
-  const avg = diffs.reduce((a,b) => a+b, 0) / diffs.length;
-  return clamp(avg, 5, 120);
+  return clamp(diffs.reduce((a,b)=>a+b,0)/diffs.length, 5, 120);
 }
+function getLowStreak(v, low){ let c=0; for(let i=v.length-1;i>=0;i--){ if(v[i]<low) c++; else break; } return c; }
+function getHighStreak(v, high){ let c=0; for(let i=v.length-1;i>=0;i--){ if(v[i]>=high) c++; else break; } return c; }
 
-function getLowStreak(values, low){
-  let c = 0;
-  for(let i = values.length - 1; i >= 0; i--){
-    if(values[i] < low) c++;
-    else break;
-  }
-  return c;
-}
-
-function getHighStreak(values, high){
-  let c = 0;
-  for(let i = values.length - 1; i >= 0; i--){
-    if(values[i] >= high) c++;
-    else break;
-  }
-  return c;
-}
-
-function getHighGapInfo(values, high){
-  const highIndexes = [];
-  for(let i = 0; i < values.length; i++){
-    if(values[i] >= high){
-      highIndexes.push(i);
-    }
-  }
-
-  if(highIndexes.length < 2){
+function getGapInfo(v, threshold){
+  const idx = [];
+  for(let i=0;i<v.length;i++) if(v[i]>=threshold) idx.push(i);
+  if(idx.length < 2){
     return {
-      avgGap: null,
-      sinceHigh: highIndexes.length ? values.length - 1 - highIndexes[highIndexes.length - 1] : values.length,
-      highIndexes
+      avgGap:null,
+      since: idx.length ? v.length - 1 - idx[idx.length-1] : v.length,
+      indexes: idx
     };
   }
-
   const gaps = [];
-  for(let i = 1; i < highIndexes.length; i++){
-    gaps.push(highIndexes[i] - highIndexes[i - 1]);
-  }
-
+  for(let i=1;i<idx.length;i++) gaps.push(idx[i]-idx[i-1]);
   return {
-    avgGap: gaps.reduce((a,b) => a+b, 0) / gaps.length,
-    sinceHigh: values.length - 1 - highIndexes[highIndexes.length - 1],
-    highIndexes
+    avgGap: gaps.reduce((a,b)=>a+b,0)/gaps.length,
+    since: v.length - 1 - idx[idx.length-1],
+    indexes: idx
   };
 }
 
-function addValueFromInputs(){
-  syncSettingsFromInputs();
+/* === DETECTEURS DE PATTERNS (issus des vidéos) === */
+function detectPatterns(values, settings){
+  const { lowThreshold:LOW, highThreshold:HIGH, megaThreshold:MEGA } = settings;
+  const n = values.length;
+  const res = { cold:false, deep:false, cluster:false, stairs:false, rebound:false, dupli:false, details:{} };
+  if(n === 0) return res;
 
-  const multi = parseFloat($("multiInput").value);
-  if(!Number.isFinite(multi) || multi < 1){
-    toast("Multiplicateur invalide");
-    return;
+  // 1. Cold streak — 3+ tours < LOW
+  const lowStreak = getLowStreak(values, LOW);
+  res.details.lowStreak = lowStreak;
+  if(lowStreak >= 3) res.cold = true;
+
+  // 2. Deep Crash — dans les 2 derniers tours, présence d'un ≤ 1.15
+  const last2 = values.slice(-2);
+  if(last2.some(v => v <= 1.15)) res.deep = true;
+
+  // 3. Cluster haut — 2+ tours >= HIGH dans les 4 derniers
+  const last4 = values.slice(-4);
+  const nHighLast4 = last4.filter(v => v >= HIGH).length;
+  if(nHighLast4 >= 2) res.cluster = true;
+  res.details.nHighLast4 = nHighLast4;
+
+  // 4. Staircase — 3+ tours consécutifs >= 2 et < MEGA (tous en hausse ou stable)
+  if(n >= 3){
+    const last3 = values.slice(-3);
+    if(last3.every(v => v >= 2 && v < MEGA)) res.stairs = true;
   }
 
-  const rawTime = $("timeInput").value.trim();
-  let ts = rawTime ? parseTimeToTimestamp(rawTime) : Date.now();
+  // 5. Post-Méga Cool — méga dans les 3 derniers tours mais pas le dernier
+  const last3full = values.slice(-3);
+  if(last3full.some((v,i) => v >= MEGA && i < last3full.length - 1)) res.rebound = true;
 
-  if(rawTime && ts === null){
-    toast("Heure invalide, format HH:MM:SS");
-    return;
-  }
-
-  if(state.history.length){
-    const lastTs = state.history[state.history.length - 1].t;
-    const minGap = state.settings.roundDuration * 1000;
-    if(ts <= lastTs){
-      ts = lastTs + minGap;
+  // 6. Duplication — 2+ paires de multiplicateurs proches (écart < 0.15) dans les 6 derniers
+  const last6 = values.slice(-6);
+  let dupPairs = 0;
+  for(let i=0;i<last6.length;i++){
+    for(let j=i+1;j<last6.length;j++){
+      if(Math.abs(last6[i]-last6[j]) < 0.15) dupPairs++;
     }
   }
+  if(dupPairs >= 2 && n >= 5) res.dupli = true;
+  res.details.dupPairs = dupPairs;
 
-  state.history.push({
-    v: round2(multi),
-    t: ts
-  });
+  return res;
+}
 
+/* === BIG WIN SCORING (nouvelle logique) === */
+function computeBigWinScore(values, patterns, gapMega, gapHigh, mode, settings){
+  const { megaThreshold:MEGA, highThreshold:HIGH } = settings;
+  const n = values.length;
+  if(n < 3) return { score:0, reasons:["Historique insuffisant"] };
+
+  let score = 0;
+  const reasons = [];
+
+  // Facteur 1 : pression de gap méga
+  if(gapMega.avgGap !== null){
+    const pressure = (gapMega.since + 1) / gapMega.avgGap;
+    if(pressure >= 0.85){
+      const add = clamp(Math.round(pressure * 22), 10, 30);
+      score += add;
+      reasons.push(`Cycle méga atteint (${fmt2(gapMega.since)}/${fmt2(gapMega.avgGap)}t)`);
+    }
+  } else if(n >= 6){
+    // Pas de méga dans l'historique : plus on attend, plus la pression monte
+    score += Math.min(18, n);
+    reasons.push("Aucun méga récent : pression qui monte");
+  }
+
+  // Facteur 2 : Cold streak (>= 3 tours bas) — observé dans les vidéos avant spikes
+  if(patterns.cold){
+    const ls = patterns.details.lowStreak;
+    score += Math.min(22, ls * 6);
+    reasons.push(`Cold streak de ${ls} tours détectée`);
+  }
+
+  // Facteur 3 : Deep Crash récent (×1.00-1.15)
+  if(patterns.deep){
+    score += 14;
+    reasons.push("Deep crash récent (<1.15) → rebond probable");
+  }
+
+  // Facteur 4 : Cluster haut actif (phase payout)
+  if(patterns.cluster){
+    score += 12;
+    reasons.push(`Cluster payout actif (${patterns.details.nHighLast4} hauts/4)`);
+  }
+
+  // Facteur 5 : Staircase (tous > 2x) — signal de spike dans les vidéos
+  if(patterns.stairs){
+    score += 16;
+    reasons.push("Escalier 3+ tours >2x → spike imminent");
+  }
+
+  // Facteur 6 : Post-méga cool → PÉNALITÉ (pas de méga juste après un méga)
+  if(patterns.rebound){
+    score -= 20;
+    reasons.push("Post-méga : phase de drainage");
+  }
+
+  // Facteur 7 : Duplication → break prévu, souvent spike
+  if(patterns.dupli){
+    score += 8;
+    reasons.push("Duplication détectée → break anticipé");
+  }
+
+  // Facteur 8 : Volatilité élevée
+  const std = stdDev(values);
+  if(std > 3){
+    score += 10;
+    reasons.push(`Volatilité élevée (${fmt2(std)})`);
+  }
+
+  // Facteur 9 : Fréquence mégas historique
+  const megaFreq = values.filter(v => v >= MEGA).length / n;
+  if(megaFreq > 0.15){
+    score += 8;
+    reasons.push(`Fréquence méga élevée (${Math.round(megaFreq*100)}%)`);
+  } else if(megaFreq === 0 && n >= 8){
+    score += 6; // compensation statistique
+  }
+
+  // Applique le biais du mode
+  score = Math.round(score * mode.bigWinBias);
+  score = clamp(score, 0, 100);
+
+  if(reasons.length === 0) reasons.push("Aucun signal fort de gros gain");
+  return { score, reasons };
+}
+
+/* === ENTRÉES === */
+function addValueFromInputs(){
+  syncSettingsFromInputs();
+  const multi = parseFloat($("multiInput").value);
+  if(!Number.isFinite(multi) || multi < 1){ toast("Multiplicateur invalide"); return; }
+  const rawTime = $("timeInput").value.trim();
+  let ts = rawTime ? parseTimeToTimestamp(rawTime) : Date.now();
+  if(rawTime && ts === null){ toast("Heure invalide HH:MM:SS"); return; }
+  if(state.history.length){
+    const lastTs = state.history[state.history.length-1].t;
+    const minGap = state.settings.roundDuration * 1000;
+    if(ts <= lastTs) ts = lastTs + minGap;
+  }
+  state.history.push({ v:round2(multi), t:ts });
   $("multiInput").value = "";
   saveState();
   renderAll();
@@ -1222,385 +962,367 @@ function addValueFromInputs(){
 }
 
 function exportCSV(){
-  if(!state.history.length){
-    toast("Aucune donnée à exporter");
-    return;
-  }
-
+  if(!state.history.length){ toast("Aucune donnée"); return; }
   const rows = ["timestamp,datetime,time,multiplier"];
-  state.history.forEach(item => {
-    rows.push([
-      item.t,
-      new Date(item.t).toISOString(),
-      timeFromTs(item.t),
-      item.v
-    ].join(","));
-  });
-
-  const blob = new Blob([rows.join("\n")], { type: "text/csv;charset=utf-8" });
+  state.history.forEach(it => rows.push([it.t, new Date(it.t).toISOString(), timeFromTs(it.t), it.v].join(",")));
+  const blob = new Blob([rows.join("\n")], { type:"text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = url;
-  a.download = "fusion_aviator_x4_corrige.csv";
-  a.click();
+  a.href = url; a.download = "fusion_aviator_x5.csv"; a.click();
   URL.revokeObjectURL(url);
   toast("CSV exporté");
 }
 
 function parseImportedLine(line){
-  const clean = line.trim();
-  if(!clean) return null;
-  if(/^timestamp\s*,/i.test(clean)) return null;
-
-  const parts = clean.split(",").map(p => p.trim()).filter(Boolean);
+  const c = line.trim();
+  if(!c || /^timestamp\s*,/i.test(c)) return null;
+  const parts = c.split(",").map(p=>p.trim()).filter(Boolean);
   if(!parts.length) return null;
-
-  let timestamp = null;
-  let timeOnly = null;
-  let multiplier = null;
-
+  let timestamp=null, timeOnly=null, multi=null;
   if(parts.length >= 4){
-    if(/^\d{13}$/.test(parts[0])) timestamp = Number(parts[0]);
+    if(/^\d{13}$/.test(parts[0])) timestamp = +parts[0];
     if(/^\d{2}:\d{2}:\d{2}$/.test(parts[2])) timeOnly = parts[2];
-
-    const lastValue = parseFloat(parts[parts.length - 1]);
-    if(Number.isFinite(lastValue) && lastValue >= 1 && lastValue <= 1000){
-      multiplier = round2(lastValue);
-    }
+    const lv = parseFloat(parts[parts.length-1]);
+    if(Number.isFinite(lv) && lv>=1 && lv<=1000) multi = round2(lv);
   }
-
-  if(multiplier === null){
-    for(let i = parts.length - 1; i >= 0; i--){
+  if(multi === null){
+    for(let i=parts.length-1;i>=0;i--){
       const p = parts[i];
-
-      if(/^\d{2}:\d{2}:\d{2}$/.test(p) && !timeOnly){
-        timeOnly = p;
-        continue;
-      }
-
-      if(/^\d{13}$/.test(p) && !timestamp){
-        timestamp = Number(p);
-        continue;
-      }
-
-      if(/^\d{4}-\d{2}-\d{2}T/.test(p)){
-        continue;
-      }
-
+      if(/^\d{2}:\d{2}:\d{2}$/.test(p) && !timeOnly){ timeOnly=p; continue; }
+      if(/^\d{13}$/.test(p) && !timestamp){ timestamp=+p; continue; }
+      if(/^\d{4}-\d{2}-\d{2}T/.test(p)) continue;
       const num = parseFloat(p);
-      if(Number.isFinite(num) && num >= 1 && num <= 1000){
-        multiplier = round2(num);
-        break;
-      }
+      if(Number.isFinite(num) && num>=1 && num<=1000){ multi=round2(num); break; }
     }
   }
-
-  if(multiplier === null) return null;
-
+  if(multi === null) return null;
   let ts = null;
-  if(timestamp){
-    ts = timestamp;
-  } else if(timeOnly){
-    ts = parseTimeToTimestamp(timeOnly);
-  }
-
-  return { v: multiplier, t: ts };
+  if(timestamp) ts = timestamp;
+  else if(timeOnly) ts = parseTimeToTimestamp(timeOnly);
+  return { v:multi, t:ts };
 }
 
 function importCSVText(text){
   const lines = text.split(/\r?\n/);
   let imported = 0;
-
   for(const line of lines){
-    const parsed = parseImportedLine(line);
-    if(!parsed) continue;
-
-    let ts = parsed.t;
+    const p = parseImportedLine(line);
+    if(!p) continue;
+    let ts = p.t;
     if(ts === null){
-      if(state.history.length){
-        ts = state.history[state.history.length - 1].t + (state.settings.roundDuration * 1000);
-      } else {
-        ts = Date.now() + imported * 1000;
-      }
+      if(state.history.length) ts = state.history[state.history.length-1].t + (state.settings.roundDuration*1000);
+      else ts = Date.now() + imported*1000;
     }
-
-    state.history.push({
-      v: parsed.v,
-      t: ts
-    });
-
+    state.history.push({ v:p.v, t:ts });
     imported++;
   }
-
-  state.history.sort((a,b) => a.t - b.t);
+  state.history.sort((a,b)=>a.t-b.t);
   saveState();
   renderAll();
-  toast(imported ? `${imported} valeur(s) importée(s)` : "Aucune valeur valide trouvée");
+  toast(imported ? `${imported} valeur(s) importée(s)` : "Aucune valeur valide");
 }
 
 function addDemoData(){
   syncSettingsFromInputs();
-  const baseTs = Date.now() - (11 * state.settings.roundDuration * 1000);
-  const sample = [1.32, 1.74, 2.10, 1.28, 4.60, 1.44, 1.80, 2.95, 1.33, 5.40, 1.52, 2.70];
-
-  sample.forEach((v, i) => {
-    state.history.push({
-      v: round2(v),
-      t: baseTs + i * state.settings.roundDuration * 1000
-    });
+  const baseTs = Date.now() - (12 * state.settings.roundDuration * 1000);
+  // Échantillon basé sur les vidéos réelles : cold streak → rebond méga
+  const sample = [1.62, 1.39, 1.26, 7.90, 1.39, 1.18, 1.04, 1.11, 1.08, 3.45, 4.42, 10.76];
+  sample.forEach((v,i)=>{
+    state.history.push({ v:round2(v), t:baseTs + i*state.settings.roundDuration*1000 });
   });
-
   saveState();
   renderAll();
-  toast("Données démo ajoutées");
+  toast("Démo vidéo ajoutée");
 }
 
+/* === PROJECTIONS (5 au lieu de 4) === */
 function createProjections(a){
-  const lastTs = state.history.length ? state.history[state.history.length - 1].t : Date.now();
-
-  const baseAnchor =
-    a.avg * 0.34 +
-    a.ema * 0.34 +
-    a.med * 0.18 +
-    Math.max(1.2, a.highThreshold * 0.75) * 0.14;
+  const lastTs = state.history.length ? state.history[state.history.length-1].t : Date.now();
+  const baseAnchor = a.avg*0.32 + a.ema*0.34 + a.med*0.18 + Math.max(1.2, a.highThreshold*0.75)*0.16;
 
   const gapPressure = a.avgGapHigh
-    ? clamp((a.sinceHigh + 1) / a.avgGapHigh, 0.65, 1.9)
-    : clamp(1 + a.lowStreak * 0.12, 0.8, 1.8);
+    ? clamp((a.sinceHigh + 1)/a.avgGapHigh, 0.65, 1.9)
+    : clamp(1 + a.lowStreak*0.12, 0.8, 1.8);
 
-  const reboundBoost = (a.lowStreak * 0.12) + Math.max(0, gapPressure - 1) * 0.22;
-  const trendBoost = clamp(a.slope / 7, -0.14, 0.22);
-  const coolPenalty = a.highStreak >= 2 ? clamp(a.highStreak * 0.09, 0, 0.26) : 0;
-  const volSpread = Math.max(0.35, a.std * 0.42);
+  const reboundBoost = (a.lowStreak*0.12) + Math.max(0, gapPressure - 1)*0.22
+                      + (a.patterns.deep ? 0.10 : 0)
+                      + (a.patterns.cold ? 0.08 : 0);
+  const trendBoost = clamp(a.slope/7, -0.14, 0.22);
+  const coolPenalty = (a.highStreak >= 2 ? clamp(a.highStreak*0.09, 0, 0.26) : 0)
+                    + (a.patterns.rebound ? 0.12 : 0);
+  const volSpread = Math.max(0.35, a.std*0.42);
+
+  // Facteur méga : combien la projection P5 doit pousser vers le méga
+  const megaPush = 1 + (a.bigWin.score/100) * 0.55;
 
   const scenarios = [
-    { key:"P1", label:"P1 Stable", factor:0.92, risk:"Faible", cls:"p1", riskCls:"risk-low" },
-    { key:"P2", label:"P2 Équilibre", factor:1.03, risk:"Modéré", cls:"p2", riskCls:"risk-mid" },
-    { key:"P3", label:"P3 Momentum", factor:1.17, risk:"Élevé", cls:"p3", riskCls:"risk-high" },
-    { key:"P4", label:"P4 Spike", factor:1.34, risk:"Très élevé", cls:"p4", riskCls:"risk-x" }
+    { key:"P1", label:"P1 Stable",    factor:0.90, risk:"Faible",     cls:"p1", riskCls:"risk-low",  isMega:false },
+    { key:"P2", label:"P2 Équilibre", factor:1.03, risk:"Modéré",     cls:"p2", riskCls:"risk-mid",  isMega:false },
+    { key:"P3", label:"P3 Momentum",  factor:1.18, risk:"Élevé",      cls:"p3", riskCls:"risk-high", isMega:false },
+    { key:"P4", label:"P4 Spike",     factor:1.38, risk:"Très élevé", cls:"p4", riskCls:"risk-x",    isMega:false },
+    { key:"P5", label:"P5 Méga 💎",   factor:1.70, risk:"Méga",       cls:"p5", riskCls:"risk-mega", isMega:true  }
   ];
 
-  return scenarios.map((sc, index) => {
+  return scenarios.map((sc, i) => {
     let center = baseAnchor * sc.factor * a.mode.targetBoost;
     center *= (1 + reboundBoost + trendBoost - coolPenalty);
 
-    if(index === 0 && a.lowStreak >= 2) center *= 1.05;
-    if(index === 3) center *= (1 + Math.min(0.22, a.std / 16));
-
-    center = clamp(center, 1.05, Math.max(7, a.max * 1.45 * a.mode.riskBias));
-
-    let rangeMin = Math.max(1.01, center - volSpread * (0.75 + index * 0.18));
-    let rangeMax = center + volSpread * (1.00 + index * 0.25);
-    if(rangeMax < rangeMin + 0.35){
-      rangeMax = rangeMin + 0.35;
+    if(i === 0 && a.lowStreak >= 2) center *= 1.05;
+    if(i === 3) center *= (1 + Math.min(0.25, a.std/14));
+    if(sc.isMega){
+      // Projection méga dédiée : ancrée sur seuil méga + boost big win
+      center = Math.max(center, a.megaThreshold * 0.9) * megaPush;
+      if(a.patterns.cold || a.patterns.stairs) center *= 1.18;
     }
 
-    const conf = clamp(a.confidence - (index * 6) + (index === 1 ? 2 : 0), 14, 93);
-    const score = Math.round(conf * (1 + (center / Math.max(2, a.highThreshold)) * 0.12));
+    const maxCap = sc.isMega
+      ? Math.max(a.megaThreshold*4, a.max*2.2)
+      : Math.max(7, a.max*1.5*a.mode.riskBias);
+    center = clamp(center, 1.05, maxCap);
 
-    const ts = lastTs + Math.round(a.roundSec * 1000 * (index + 1));
+    let rMin = Math.max(1.01, center - volSpread*(0.75 + i*0.18));
+    let rMax = center + volSpread*(1.00 + i*0.28) * (sc.isMega ? 2.2 : 1);
+    if(rMax < rMin + 0.35) rMax = rMin + 0.35;
+
+    let conf = clamp(a.confidence - (i*6) + (i===1?2:0), 14, 93);
+    // P5 : confiance liée au score big win
+    if(sc.isMega){
+      conf = clamp(Math.round(a.bigWin.score*0.85 + 8), 8, 92);
+    }
+
+    const score = Math.round(conf * (1 + (center/Math.max(2, a.highThreshold))*0.12));
+    const ts = lastTs + Math.round(a.roundSec*1000*(i+1));
 
     return {
-      key: sc.key,
-      label: sc.label,
-      cls: sc.cls,
-      risk: sc.risk,
-      riskCls: sc.riskCls,
-      center: round2(center),
-      min: round2(rangeMin),
-      max: round2(rangeMax),
-      conf,
-      score,
-      ts,
-      time: timeFromTs(ts),
-      offsetRounds: index + 1
+      key:sc.key, label:sc.label, cls:sc.cls, risk:sc.risk, riskCls:sc.riskCls,
+      isMega:sc.isMega,
+      center:round2(center), min:round2(rMin), max:round2(rMax),
+      conf, score, ts, time:timeFromTs(ts), offsetRounds:i+1
     };
   });
 }
 
+/* === ENGINE === */
 function analyzeEngine(){
   syncSettingsFromInputs();
-
-  const values = state.history.map(x => x.v);
+  const values = state.history.map(x=>x.v);
   const mode = MODE_CFG[state.mode];
-  const highThreshold = state.settings.highThreshold;
-  const lowThreshold = state.settings.lowThreshold;
+  const { highThreshold, megaThreshold, lowThreshold } = state.settings;
   const roundSecRaw = averageRoundSeconds(state.history, state.settings.roundDuration);
   const roundSec = clamp(roundSecRaw * mode.gapBias, 5, 180);
 
   if(!values.length){
     return {
-      count: 0,
-      avg: 0,
-      med: 0,
-      ema: 0,
-      max: 0,
-      min: 0,
-      std: 0,
-      slope: 0,
-      highFreq: 0,
-      lowFreq: 0,
-      lowStreak: 0,
-      highStreak: 0,
-      avgGapHigh: null,
-      sinceHigh: 0,
-      confidence: 0,
-      patternType: "neutral",
-      patternLabel: "Neutre",
-      patternText: "Ajoute quelques valeurs pour démarrer l’analyse.",
-      roundSec,
-      highThreshold,
-      lowThreshold,
-      projections: [],
-      mode
+      count:0, avg:0, med:0, ema:0, max:0, min:0, std:0, slope:0,
+      highFreq:0, lowFreq:0, megaFreq:0, lowStreak:0, highStreak:0,
+      avgGapHigh:null, sinceHigh:0, avgGapMega:null, sinceMega:0,
+      confidence:0,
+      patternType:"neutral", patternLabel:"Neutre",
+      patternText:"Ajoute quelques valeurs pour démarrer.",
+      roundSec, highThreshold, megaThreshold, lowThreshold,
+      projections:[], mode,
+      patterns:{ cold:false, deep:false, cluster:false, stairs:false, rebound:false, dupli:false, details:{} },
+      bigWin:{ score:0, reasons:["Historique vide"] }
     };
   }
 
-  const avg = values.reduce((a,b)=>a+b,0) / values.length;
+  const avg = values.reduce((a,b)=>a+b,0)/values.length;
   const med = median(values);
   const max = Math.max(...values);
   const min = Math.min(...values);
-  const emaValue = ema(values, 0.34);
+  const emaVal = ema(values, 0.34);
   const std = stdDev(values);
   const slope = linearSlope(values.slice(-10));
-  const highCount = values.filter(v => v >= highThreshold).length;
-  const lowCount = values.filter(v => v < lowThreshold).length;
-  const highFreq = values.length ? highCount / values.length : 0;
-  const lowFreq = values.length ? lowCount / values.length : 0;
-  const lowStreak = getLowStreak(values, lowThreshold);
+
+  const highCount = values.filter(v=>v>=highThreshold).length;
+  const lowCount  = values.filter(v=>v< lowThreshold).length;
+  const megaCount = values.filter(v=>v>=megaThreshold).length;
+  const highFreq = highCount/values.length;
+  const lowFreq  = lowCount/values.length;
+  const megaFreq = megaCount/values.length;
+
+  const lowStreak  = getLowStreak(values, lowThreshold);
   const highStreak = getHighStreak(values, highThreshold);
-  const gapInfo = getHighGapInfo(values, highThreshold);
+  const gapHigh = getGapInfo(values, highThreshold);
+  const gapMega = getGapInfo(values, megaThreshold);
 
-  let patternType = "neutral";
-  let patternLabel = "Neutre";
-  let patternText = "Séquence encore insuffisante pour un pattern fort.";
+  // Patterns vidéo
+  const patterns = detectPatterns(values, state.settings);
 
+  // Big win scoring
+  const bigWin = computeBigWinScore(values, patterns, gapMega, gapHigh, mode, state.settings);
+
+  // Pattern dominant (badge)
+  let patternType="neutral", patternLabel="Neutre", patternText="Lecture neutre.";
   if(values.length < 4){
-    patternType = "neutral";
-    patternLabel = "Collecte";
-    patternText = "Historique court : continue d’ajouter des valeurs pour stabiliser les signaux.";
-  } else if(lowStreak >= 3){
-    patternType = "watch";
-    patternLabel = "Surveillance";
-    patternText = `Série basse de ${lowStreak} tours détectée : phase de rebond statistique à surveiller.`;
+    patternType="neutral"; patternLabel="Collecte";
+    patternText="Historique court : ajoute plus de valeurs.";
+  } else if(patterns.cold){
+    patternType="watch"; patternLabel="Cold Streak";
+    patternText=`Série basse de ${lowStreak} tours : rebond statistique attendu.`;
+  } else if(patterns.stairs){
+    patternType="momentum"; patternLabel="Staircase";
+    patternText="Escalier >2x : spike souvent imminent selon les vidéos.";
+  } else if(patterns.rebound){
+    patternType="cooldown"; patternLabel="Post-Méga";
+    patternText="Phase de drainage après méga : lecture prudente.";
+  } else if(patterns.cluster){
+    patternType="momentum"; patternLabel="Cluster";
+    patternText=`Phase payout active (${patterns.details.nHighLast4} hauts sur 4).`;
+  } else if(patterns.deep){
+    patternType="watch"; patternLabel="Deep Crash";
+    patternText="Crash <1.15 récent : rebond possible 1–2 tours.";
   } else if(highStreak >= 2){
-    patternType = "cooldown";
-    patternLabel = "Refroidissement";
-    patternText = `Enchaînement de ${highStreak} tours hauts : une normalisation statistique est possible.`;
-  } else if(gapInfo.avgGap !== null && gapInfo.sinceHigh >= Math.ceil(gapInfo.avgGap)){
-    patternType = "watch";
-    patternLabel = "Fenêtre";
-    patternText = `Le cycle haut moyen (${fmt2(gapInfo.avgGap)} tours) est atteint ou dépassé.`;
-  } else if(slope > 0.22 && emaValue > avg){
-    patternType = "momentum";
-    patternLabel = "Momentum";
-    patternText = "La moyenne récente accélère au-dessus de la moyenne globale.";
-  } else if(slope < -0.22 && emaValue < avg){
-    patternType = "cooldown";
-    patternLabel = "Retrait";
-    patternText = "La pente est orientée à la baisse : repli statistique court terme.";
+    patternType="cooldown"; patternLabel="Refroidissement";
+    patternText=`${highStreak} tours hauts : normalisation possible.`;
+  } else if(slope > 0.22 && emaVal > avg){
+    patternType="momentum"; patternLabel="Momentum";
+    patternText="EMA accélère au-dessus de la moyenne.";
+  } else if(slope < -0.22 && emaVal < avg){
+    patternType="cooldown"; patternLabel="Retrait";
+    patternText="Pente négative : repli court terme.";
   } else {
-    patternType = "neutral";
-    patternLabel = "Stable";
-    patternText = "Structure relativement stable : lecture prudente des écarts et de la volatilité.";
+    patternType="neutral"; patternLabel="Stable";
+    patternText="Structure équilibrée.";
   }
 
+  // Confiance globale
   let confidence = 18;
-  confidence += Math.min(26, values.length * 2.1);
-  confidence += gapInfo.avgGap !== null ? 10 : 0;
+  confidence += Math.min(26, values.length*2.1);
+  confidence += gapHigh.avgGap !== null ? 10 : 0;
   confidence += lowStreak >= 2 ? 10 : 0;
-  confidence += patternType === "watch" ? 10 : 0;
-  confidence += patternType === "momentum" ? 8 : 0;
+  confidence += patternType === "watch"    ? 10 : 0;
+  confidence += patternType === "momentum" ? 8  : 0;
   confidence += std < 1.8 ? 8 : std < 3.5 ? 4 : -6;
   confidence += Math.abs(slope) < 0.8 ? 4 : -2;
   confidence += mode.confidenceBias;
   confidence = clamp(Math.round(confidence), 12, 94);
 
   const data = {
-    count: values.length,
-    avg,
-    med,
-    ema: emaValue,
-    max,
-    min,
-    std,
-    slope,
-    highFreq,
-    lowFreq,
-    lowStreak,
-    highStreak,
-    avgGapHigh: gapInfo.avgGap,
-    sinceHigh: gapInfo.sinceHigh,
+    count:values.length, avg, med, ema:emaVal, max, min, std, slope,
+    highFreq, lowFreq, megaFreq,
+    lowStreak, highStreak,
+    avgGapHigh:gapHigh.avgGap, sinceHigh:gapHigh.since,
+    avgGapMega:gapMega.avgGap, sinceMega:gapMega.since,
     confidence,
-    patternType,
-    patternLabel,
-    patternText,
-    roundSec,
-    highThreshold,
-    lowThreshold,
-    mode
+    patternType, patternLabel, patternText,
+    roundSec, highThreshold, megaThreshold, lowThreshold,
+    mode, patterns, bigWin
   };
-
   data.projections = createProjections(data);
   return data;
 }
 
+/* === RENDER === */
+function renderBigWin(a){
+  const alert = $("bigWinAlert");
+  const status = $("bigWinStatus");
+  const multi = $("bigWinMulti");
+  const time = $("bigWinTime");
+  const reasons = $("bigWinReasons");
+  const bar = $("bigWinBar");
+  const probEl = $("bigWinProb");
+
+  if(!a.count){
+    alert.className = "bigwin-alert idle";
+    status.className = "bigwin-status";
+    status.textContent = "VEILLE";
+    multi.textContent = "×--";
+    time.textContent = "Fenêtre estimée : --:--:--";
+    reasons.innerHTML = `<span class="reason-chip">Ajoute des données pour activer</span>`;
+    bar.style.width = "0%";
+    probEl.textContent = "0%";
+    return;
+  }
+
+  const s = a.bigWin.score;
+  const megaP = a.projections.find(p => p.isMega);
+  probEl.textContent = `${s}%`;
+  bar.style.width = `${s}%`;
+
+  if(s >= 60){
+    alert.className = "bigwin-alert hot";
+    status.className = "bigwin-status hot";
+    status.textContent = "🔥 ALERTE";
+  } else if(s >= 35){
+    alert.className = "bigwin-alert";
+    status.className = "bigwin-status";
+    status.textContent = "SURVEILLANCE";
+  } else {
+    alert.className = "bigwin-alert idle";
+    status.className = "bigwin-status";
+    status.textContent = "VEILLE";
+  }
+
+  if(megaP){
+    multi.textContent = `×${fmt2(megaP.center)}`;
+    time.textContent = `Fenêtre estimée : ${megaP.time}  (+${megaP.offsetRounds}t)`;
+  }
+
+  reasons.innerHTML = a.bigWin.reasons.slice(0,5).map(r => `<span class="reason-chip">${r}</span>`).join("");
+}
+
+function renderPatternsList(a){
+  const list = $("patternsList");
+  const activeCount = PATTERN_DEFS.filter(p => a.patterns[p.id]).length;
+  $("patternsCount").textContent = `${activeCount}/6 actifs`;
+
+  list.innerHTML = PATTERN_DEFS.map(p => {
+    const on = !!a.patterns[p.id];
+    return `
+      <div class="pattern-item ${on ? "active":""}">
+        <div class="p-ico">${p.ico}</div>
+        <div class="p-text"><strong>${p.label}</strong> — ${p.desc}</div>
+        <div class="p-state ${on?"on":"off"}">${on?"ON":"OFF"}</div>
+      </div>`;
+  }).join("");
+}
+
 function renderStats(a){
-  $("histCountBadge").textContent = `${a.count || 0} entrée${(a.count || 0) > 1 ? "s" : ""}`;
+  $("histCountBadge").textContent = `${a.count||0} entrée${(a.count||0)>1?"s":""}`;
   $("stAvg").textContent = `×${fmt2(a.avg)}`;
   $("stEma").textContent = `×${fmt2(a.ema)}`;
   $("stVol").textContent = fmt2(a.std);
   $("stGap").textContent = a.avgGapHigh !== null ? `${fmt2(a.avgGapHigh)}t` : "—";
-  $("stLowStreak").textContent = String(a.lowStreak || 0);
-  $("stFreq").textContent = `${Math.round((a.highFreq || 0) * 100)}%`;
+  $("stGapMega").textContent = a.avgGapMega !== null ? `${fmt2(a.avgGapMega)}t` : "—";
+  $("stLowStreak").textContent = String(a.lowStreak||0);
 }
 
 function renderHero(a){
   if(!a.projections.length){
-    $("heroMulti").textContent = "×--";
-    $("heroTime").textContent = "--:--:--";
-    $("heroConf").textContent = "0%";
-    $("heroBar").style.width = "0%";
-    $("heroNote").textContent = "Ajoute des valeurs puis lance l’analyse pour générer une projection statistique principale.";
+    $("heroMulti").textContent="×--";
+    $("heroTime").textContent="--:--:--";
+    $("heroConf").textContent="0%";
+    $("heroBar").style.width="0%";
+    $("heroNote").textContent="Ajoute des valeurs puis analyse pour générer une projection.";
     return;
   }
-
-  const best = [...a.projections].sort((x,y) => y.score - x.score)[0];
+  // Hero = meilleur score parmi les 4 premières (pas P5 méga, qui a sa propre card)
+  const nonMega = a.projections.filter(p => !p.isMega);
+  const best = [...nonMega].sort((x,y)=>y.score-x.score)[0];
   $("heroMulti").textContent = `×${fmt2(best.center)}`;
   $("heroTime").textContent = best.time;
   $("heroConf").textContent = `${a.confidence}%`;
   $("heroBar").style.width = `${a.confidence}%`;
 
-  const patternPhrase =
-    a.patternType === "watch" ? "fenêtre de surveillance renforcée" :
-    a.patternType === "momentum" ? "momentum positif" :
-    a.patternType === "cooldown" ? "phase de refroidissement" :
+  const patPhrase =
+    a.patternType === "watch"    ? "fenêtre de surveillance renforcée" :
+    a.patternType === "momentum"  ? "momentum positif" :
+    a.patternType === "cooldown"  ? "phase de refroidissement" :
     "lecture neutre";
 
   $("heroNote").innerHTML =
-    `<strong>${best.label}</strong> ressort comme projection principale, ` +
-    `autour de <strong>×${fmt2(best.center)}</strong> à <strong>${best.time}</strong>. ` +
-    `Le moteur observe une structure de type <strong>${patternPhrase}</strong>.`;
+    `<strong>${best.label}</strong> ressort comme projection principale, autour de ` +
+    `<strong>×${fmt2(best.center)}</strong> à <strong>${best.time}</strong>. ` +
+    `Structure de type <strong>${patPhrase}</strong>.`;
 }
 
 function renderPredictions(a){
   const grid = $("predictionsGrid");
-
   if(!a.projections.length){
-    grid.innerHTML = `
-      <div class="pred p1">
-        <div class="pred-head">
-          <div class="pred-name">P1</div>
-          <div class="pred-risk risk-low">En attente</div>
-        </div>
-        <div class="pred-main">×--</div>
-        <div class="pred-range">Plage : -- à --</div>
-        <div class="pred-time">Heure : --:--:--</div>
-        <div class="pred-foot"><span>Confiance --%</span><span>Score --</span></div>
-      </div>`;
+    grid.innerHTML = `<div class="pred p1"><div class="pred-head"><div class="pred-name">P1</div><div class="pred-risk risk-low">En attente</div></div><div class="pred-main">×--</div><div class="pred-range">Plage : -- à --</div><div class="pred-time">Heure : --:--:--</div><div class="pred-foot"><span>Confiance --%</span><span>Score --</span></div></div>`;
     return;
   }
-
   grid.innerHTML = a.projections.map(p => `
     <div class="pred ${p.cls}">
       <div class="pred-head">
@@ -1609,7 +1331,7 @@ function renderPredictions(a){
       </div>
       <div class="pred-main">×${fmt2(p.center)}</div>
       <div class="pred-range">Plage : ×${fmt2(p.min)} à ×${fmt2(p.max)}</div>
-      <div class="pred-time">Heure : ${p.time} · +${p.offsetRounds} tour${p.offsetRounds > 1 ? "s" : ""}</div>
+      <div class="pred-time">Heure : ${p.time} · +${p.offsetRounds} tour${p.offsetRounds>1?"s":""}</div>
       <div class="pred-foot">
         <span>Confiance ${p.conf}%</span>
         <span class="score">Score ${p.score}</span>
@@ -1619,50 +1341,38 @@ function renderPredictions(a){
 }
 
 function renderInfo(a){
-  const best = a.projections.length ? [...a.projections].sort((x,y)=>y.score-x.score)[0] : null;
+  const nonMega = a.projections.filter(p => !p.isMega);
+  const best = nonMega.length ? [...nonMega].sort((x,y)=>y.score-x.score)[0] : null;
 
-  const patternBadge = $("patternBadge");
-  patternBadge.textContent = a.patternLabel || "Neutre";
-  patternBadge.style.color =
-    a.patternType === "watch" ? "#c9ffe8" :
+  const pb = $("patternBadge");
+  pb.textContent = a.patternLabel || "Neutre";
+  pb.style.color =
+    a.patternType === "watch"   ? "#c9ffe8" :
     a.patternType === "momentum" ? "#b8d8ff" :
-    a.patternType === "cooldown" ? "#ffd7a8" :
-    "var(--muted)";
+    a.patternType === "cooldown" ? "#ffd7a8" : "var(--muted)";
 
   if(best){
     $("nextWindow").textContent = best.time;
-    $("nextWindowText").textContent =
-      `Fenêtre dominante estimée sur ${best.label}, score ${best.score}, confiance ${best.conf}%.`;
+    $("nextWindowText").textContent = `Fenêtre dominante : ${best.label}, score ${best.score}, confiance ${best.conf}%.`;
   } else {
     $("nextWindow").textContent = "--:--:--";
-    $("nextWindowText").textContent = "Pas assez de données pour estimer la prochaine fenêtre.";
+    $("nextWindowText").textContent = "Pas assez de données.";
   }
 
-  let trendLabel = "Neutre";
-  let trendText = "Aucune tendance forte.";
-
-  if(a.slope > 0.25){
-    trendLabel = "Hausse";
-    trendText = `Pente positive (${fmt2(a.slope)}) et EMA récente favorable.`;
-  } else if(a.slope < -0.25){
-    trendLabel = "Baisse";
-    trendText = `Pente négative (${fmt2(a.slope)}) avec ralentissement du signal récent.`;
-  } else {
-    trendLabel = "Stable";
-    trendText = `Pente modérée (${fmt2(a.slope)}), comportement plutôt équilibré.`;
-  }
-
-  $("trendLabel").textContent = trendLabel;
-  $("trendText").textContent = trendText;
+  let tl="Neutre", tt="Aucune tendance forte.";
+  if(a.slope > 0.25){ tl="Hausse"; tt=`Pente positive (${fmt2(a.slope)}) et EMA favorable.`; }
+  else if(a.slope < -0.25){ tl="Baisse"; tt=`Pente négative (${fmt2(a.slope)}).`; }
+  else { tl="Stable"; tt=`Pente modérée (${fmt2(a.slope)}).`; }
+  $("trendLabel").textContent = tl;
+  $("trendText").textContent = tt;
 
   if(a.avgGapHigh !== null){
     $("gapValue").textContent = `${fmt2(a.avgGapHigh)} tours`;
-    $("gapText").textContent =
-      `Écart moyen entre tours au-dessus du seuil haut : ${fmt2(a.avgGapHigh)}. ` +
-      `Actuellement ${a.sinceHigh} tour(s) depuis le dernier haut.`;
+    $("gapText").textContent = `Gap moyen haut : ${fmt2(a.avgGapHigh)}. Depuis dernier haut : ${a.sinceHigh}t.` +
+      (a.avgGapMega !== null ? ` Gap méga : ${fmt2(a.avgGapMega)}t (depuis : ${a.sinceMega}t).` : "");
   } else {
     $("gapValue").textContent = "—";
-    $("gapText").textContent = "Aucune séquence haute suffisante pour calculer un gap fiable.";
+    $("gapText").textContent = "Pas assez de hauts pour un gap fiable.";
   }
 
   startCountdown(best);
@@ -1670,88 +1380,72 @@ function renderInfo(a){
 
 function startCountdown(best){
   clearInterval(countdownTimer);
-
   if(!best){
-    $("countdown").textContent = "--:--";
-    $("countdownText").textContent = "Le décompte démarre sur la meilleure fenêtre calculée.";
+    $("countdown").textContent="--:--";
+    $("countdownText").textContent="Le décompte démarre sur la meilleure fenêtre.";
     return;
   }
-
   function update(){
     const now = Date.now();
-    let diff = Math.floor((best.ts - now) / 1000);
-
+    let diff = Math.floor((best.ts - now)/1000);
     if(diff <= 0){
       $("countdown").textContent = "00:00";
-      $("countdownText").textContent = `Fenêtre ${best.label} atteinte ou dépassée.`;
+      $("countdownText").textContent = `Fenêtre ${best.label} atteinte.`;
       clearInterval(countdownTimer);
       return;
     }
-
-    const mm = Math.floor(diff / 60);
-    const ss = diff % 60;
+    const mm = Math.floor(diff/60);
+    const ss = diff%60;
     $("countdown").textContent = `${pad(mm)}:${pad(ss)}`;
-    $("countdownText").textContent = `Temps restant avant ${best.label} estimé à ${best.time}.`;
+    $("countdownText").textContent = `Reste ${mm>0?mm+"m ":""}${ss}s avant ${best.label}.`;
   }
-
   update();
   countdownTimer = setInterval(update, 1000);
 }
 
 function renderTimeline(a){
   const box = $("timeline");
-
   if(!a.projections.length){
-    box.innerHTML = `
-      <div class="t-item">
-        <div class="t-left">
-          <strong>En attente</strong>
-          <span>Aucune projection calculée</span>
-        </div>
-        <div class="t-right">
-          <div class="tt">--:--:--</div>
-          <div class="tm">×--</div>
-        </div>
-      </div>`;
+    box.innerHTML = `<div class="t-item"><div class="t-left"><strong>En attente</strong><span>Aucune projection</span></div><div class="t-right"><div class="tt">--:--:--</div><div class="tm">×--</div></div></div>`;
     return;
   }
-
-  const bestKey = [...a.projections].sort((x,y)=>y.score-x.score)[0].key;
+  const nonMega = a.projections.filter(p => !p.isMega);
+  const bestKey = nonMega.length ? [...nonMega].sort((x,y)=>y.score-x.score)[0].key : null;
+  const megaKey = a.projections.find(p => p.isMega)?.key;
   const sorted = [...a.projections].sort((x,y)=>x.ts-y.ts);
 
-  box.innerHTML = sorted.map(p => `
-    <div class="t-item ${p.key === bestKey ? "best" : ""}">
-      <div class="t-left">
-        <strong>${p.label} ${p.key === bestKey ? "⭐" : ""}</strong>
-        <span>${p.risk} · Score ${p.score} · Confiance ${p.conf}%</span>
-      </div>
-      <div class="t-right">
-        <div class="tt">${p.time}</div>
-        <div class="tm">×${fmt2(p.center)}</div>
-      </div>
-    </div>
-  `).join("");
+  box.innerHTML = sorted.map(p => {
+    const isBest = p.key === bestKey;
+    const isMega = p.key === megaKey && a.bigWin.score >= 45;
+    const cls = isMega ? "mega" : (isBest ? "best" : "");
+    const star = isMega ? "💎" : (isBest ? "⭐" : "");
+    return `
+      <div class="t-item ${cls}">
+        <div class="t-left">
+          <strong>${p.label} ${star}</strong>
+          <span>${p.risk} · Score ${p.score} · Conf. ${p.conf}%</span>
+        </div>
+        <div class="t-right">
+          <div class="tt">${p.time}</div>
+          <div class="tm">×${fmt2(p.center)}</div>
+        </div>
+      </div>`;
+  }).join("");
 }
 
 function renderHistory(){
   const wrap = $("historyWrap");
-
-  if(!state.history.length){
-    wrap.innerHTML = `<div class="chip mid">Aucune donnée</div>`;
-    return;
-  }
-
+  if(!state.history.length){ wrap.innerHTML = `<div class="chip mid">Aucune donnée</div>`; return; }
   const high = state.settings.highThreshold;
-  const low = state.settings.lowThreshold;
+  const low  = state.settings.lowThreshold;
+  const mega = state.settings.megaThreshold;
   const recent = state.history.slice(-24).reverse();
-
-  wrap.innerHTML = recent.map(item => {
+  wrap.innerHTML = recent.map(it => {
     let cls = "mid";
-    if(item.v >= 10) cls = "x";
-    else if(item.v >= high) cls = "high";
-    else if(item.v < low) cls = "low";
-
-    return `<div class="chip ${cls}" title="${timeFromTs(item.t)}">×${fmt2(item.v)}</div>`;
+    if(it.v >= mega) cls = "mega";
+    else if(it.v >= high) cls = "high";
+    else if(it.v < low) cls = "low";
+    return `<div class="chip ${cls}" title="${timeFromTs(it.t)}">×${fmt2(it.v)}</div>`;
   }).join("");
 }
 
@@ -1762,139 +1456,118 @@ function drawChart(){
   const dpr = window.devicePixelRatio || 1;
   const width = cvs.clientWidth || 300;
   const height = 150;
+  cvs.width = width*dpr; cvs.height = height*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,width,height);
 
-  cvs.width = width * dpr;
-  cvs.height = height * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.clearRect(0, 0, width, height);
-
-  const data = state.history.slice(-30).map(x => x.v);
+  const data = state.history.slice(-30).map(x=>x.v);
   const high = state.settings.highThreshold;
-  const low = state.settings.lowThreshold;
+  const low  = state.settings.lowThreshold;
+  const mega = state.settings.megaThreshold;
 
   if(data.length < 2){
     ctx.fillStyle = "rgba(255,255,255,.6)";
-    ctx.font = "12px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("Pas assez de données pour le graphique", width / 2, height / 2);
+    ctx.font = "12px sans-serif"; ctx.textAlign = "center";
+    ctx.fillText("Pas assez de données", width/2, height/2);
     return;
   }
 
-  const max = Math.max(...data, high * 1.2, 4);
+  const max = Math.max(...data, high*1.2, 4);
   const min = 1;
-  const range = Math.max(0.001, max - min);
+  const range = Math.max(0.001, max-min);
+  const padX=8, padY=10;
+  const innerW=width-padX*2, innerH=height-padY*2;
+  const step = innerW / Math.max(1, data.length-1);
+  const x = i => padX + i*step;
+  const y = v => padY + innerH - ((v-min)/range)*innerH;
 
-  const padX = 8;
-  const padY = 10;
-  const innerW = width - padX * 2;
-  const innerH = height - padY * 2;
-  const step = innerW / Math.max(1, data.length - 1);
-
-  const x = i => padX + i * step;
-  const y = v => padY + innerH - ((v - min) / range) * innerH;
-
-  ctx.strokeStyle = "rgba(255,255,255,.06)";
-  ctx.lineWidth = 1;
-  for(let i = 0; i < 4; i++){
-    const gy = padY + (innerH / 3) * i;
-    ctx.beginPath();
-    ctx.moveTo(padX, gy);
-    ctx.lineTo(width - padX, gy);
-    ctx.stroke();
+  // Grid
+  ctx.strokeStyle = "rgba(255,255,255,.06)"; ctx.lineWidth = 1;
+  for(let i=0;i<4;i++){
+    const gy = padY + (innerH/3)*i;
+    ctx.beginPath(); ctx.moveTo(padX, gy); ctx.lineTo(width-padX, gy); ctx.stroke();
   }
 
+  // Seuils
   ctx.setLineDash([5,5]);
   ctx.strokeStyle = "rgba(25,219,136,.45)";
-  ctx.beginPath();
-  ctx.moveTo(padX, y(high));
-  ctx.lineTo(width - padX, y(high));
-  ctx.stroke();
-
+  ctx.beginPath(); ctx.moveTo(padX, y(high)); ctx.lineTo(width-padX, y(high)); ctx.stroke();
+  ctx.strokeStyle = "rgba(255,215,0,.5)";
+  if(mega <= max){ ctx.beginPath(); ctx.moveTo(padX, y(mega)); ctx.lineTo(width-padX, y(mega)); ctx.stroke(); }
   ctx.strokeStyle = "rgba(255,91,102,.35)";
-  ctx.beginPath();
-  ctx.moveTo(padX, y(low));
-  ctx.lineTo(width - padX, y(low));
-  ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(padX, y(low)); ctx.lineTo(width-padX, y(low)); ctx.stroke();
   ctx.setLineDash([]);
 
-  const areaGrad = ctx.createLinearGradient(0, padY, 0, height);
-  areaGrad.addColorStop(0, "rgba(155,109,255,.42)");
-  areaGrad.addColorStop(1, "rgba(155,109,255,0)");
-
+  // Area
+  const grad = ctx.createLinearGradient(0, padY, 0, height);
+  grad.addColorStop(0, "rgba(155,109,255,.42)");
+  grad.addColorStop(1, "rgba(155,109,255,0)");
   ctx.beginPath();
-  ctx.moveTo(x(0), height - padY);
-  data.forEach((v, i) => {
-    ctx.lineTo(x(i), y(v));
-  });
-  ctx.lineTo(x(data.length - 1), height - padY);
+  ctx.moveTo(x(0), height-padY);
+  data.forEach((v,i)=>ctx.lineTo(x(i), y(v)));
+  ctx.lineTo(x(data.length-1), height-padY);
   ctx.closePath();
-  ctx.fillStyle = areaGrad;
-  ctx.fill();
+  ctx.fillStyle = grad; ctx.fill();
 
+  // Line
   ctx.beginPath();
-  data.forEach((v, i) => {
-    const px = x(i);
-    const py = y(v);
-    if(i === 0) ctx.moveTo(px, py);
-    else ctx.lineTo(px, py);
-  });
-  ctx.strokeStyle = "#9b6dff";
-  ctx.lineWidth = 2.2;
-  ctx.stroke();
+  data.forEach((v,i)=>{ if(i===0) ctx.moveTo(x(i),y(v)); else ctx.lineTo(x(i),y(v)); });
+  ctx.strokeStyle = "#9b6dff"; ctx.lineWidth = 2.2; ctx.stroke();
 
-  data.forEach((v, i) => {
-    const px = x(i);
-    const py = y(v);
-    ctx.beginPath();
-    ctx.arc(px, py, 3.4, 0, Math.PI * 2);
+  // Points
+  data.forEach((v,i)=>{
+    ctx.beginPath(); ctx.arc(x(i), y(v), 3.6, 0, Math.PI*2);
     ctx.fillStyle =
-      v >= 10 ? "#d6b6ff" :
+      v >= mega ? "#ffd700" :
       v >= high ? "#19db88" :
-      v < low ? "#ff5b66" :
-      "#63d5ff";
+      v < low   ? "#ff5b66" : "#63d5ff";
     ctx.fill();
+    if(v >= mega){
+      ctx.beginPath(); ctx.arc(x(i), y(v), 6, 0, Math.PI*2);
+      ctx.strokeStyle = "rgba(255,215,0,.5)"; ctx.lineWidth = 2; ctx.stroke();
+    }
   });
 }
 
 function renderAnalysisText(a){
   const text = $("analysisText");
   const note = $("analysisNote");
-
   if(!a.count){
-    text.innerHTML = `Cette version fusionne l’approche <strong>temps + écarts + modes</strong> avec
-    <strong>historique + EMA + volatilité + import/export</strong>.`;
-    note.textContent = "Ajoute quelques valeurs pour activer l’analyse complète.";
+    text.innerHTML = `Version X5 : détection <strong>Gros Gain</strong> + <strong>6 patterns</strong> tirés des vidéos.`;
+    note.textContent = "Ajoute quelques valeurs pour activer l'analyse.";
     return;
   }
-
-  const top = a.projections.length ? [...a.projections].sort((x,y)=>y.score-x.score)[0] : null;
-  const freqHigh = Math.round(a.highFreq * 100);
+  const nonMega = a.projections.filter(p=>!p.isMega);
+  const top = nonMega.length ? [...nonMega].sort((x,y)=>y.score-x.score)[0] : null;
+  const freqHigh = Math.round(a.highFreq*100);
+  const freqMega = Math.round(a.megaFreq*100);
   const volLabel = a.std < 1.5 ? "faible" : a.std < 3 ? "modérée" : "élevée";
+  const activePatterns = PATTERN_DEFS.filter(p => a.patterns[p.id]).map(p=>p.label).join(", ") || "aucun";
 
   text.innerHTML = `
-    <strong>Résumé moteur :</strong> moyenne <strong>×${fmt2(a.avg)}</strong>, EMA <strong>×${fmt2(a.ema)}</strong>,
-    volatilité <strong>${volLabel}</strong> (${fmt2(a.std)}), fréquence des tours hauts <strong>${freqHigh}%</strong>,
-    série basse actuelle <strong>${a.lowStreak}</strong>. Le pattern dominant est
-    <strong>${a.patternLabel.toLowerCase()}</strong> : ${a.patternText}
-    ${top ? `Projection principale : <strong>${top.label}</strong> à <strong>${top.time}</strong> autour de <strong>×${fmt2(top.center)}</strong>.` : ""}
+    <strong>Moteur X5 :</strong> moyenne <strong>×${fmt2(a.avg)}</strong>, EMA <strong>×${fmt2(a.ema)}</strong>,
+    volatilité <strong>${volLabel}</strong> (${fmt2(a.std)}), tours hauts <strong>${freqHigh}%</strong>,
+    mégas <strong>${freqMega}%</strong>, série basse <strong>${a.lowStreak}</strong>.<br>
+    <strong>Patterns actifs :</strong> ${activePatterns}.<br>
+    <strong>Big Win Score :</strong> <strong style="color:#ffd700">${a.bigWin.score}/100</strong>.
+    ${top ? `<br>Projection principale : <strong>${top.label}</strong> à <strong>${top.time}</strong>, ×<strong>${fmt2(top.center)}</strong>.` : ""}
   `;
-
-  note.textContent =
-    "Lecture recommandée : plus l’historique est long et régulier, plus les métriques comme EMA, gap moyen et volatilité deviennent cohérentes.";
+  note.textContent = "Plus l'historique est long (>=10 tours), plus la détection de patterns (Cold Streak, Deep Crash, Cluster) devient fiable.";
 }
 
 function renderAll(){
-  const analysis = analyzeEngine();
-  state.lastAnalysis = analysis;
-
-  renderStats(analysis);
-  renderHero(analysis);
-  renderPredictions(analysis);
-  renderInfo(analysis);
-  renderTimeline(analysis);
+  const a = analyzeEngine();
+  state.lastAnalysis = a;
+  renderBigWin(a);
+  renderPatternsList(a);
+  renderStats(a);
+  renderHero(a);
+  renderPredictions(a);
+  renderInfo(a);
+  renderTimeline(a);
   renderHistory();
   drawChart();
-  renderAnalysisText(analysis);
+  renderAnalysisText(a);
 }
 
 function tickClock(){
@@ -1904,13 +1577,9 @@ function tickClock(){
 
 function bindEvents(){
   $("timeInput").addEventListener("input", e => formatTimeInput(e.target));
-
   document.querySelectorAll(".quick-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      $("multiInput").value = btn.dataset.quick;
-    });
+    btn.addEventListener("click", () => { $("multiInput").value = btn.dataset.quick; });
   });
-
   document.querySelectorAll(".mode-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       state.mode = btn.dataset.mode;
@@ -1920,70 +1589,33 @@ function bindEvents(){
       toast(`Mode ${MODE_CFG[state.mode].name}`);
     });
   });
-
   $("btnAdd").addEventListener("click", addValueFromInputs);
-
-  $("btnRun").addEventListener("click", () => {
-    syncSettingsFromInputs();
-    renderAll();
-    toast("Analyse mise à jour");
-  });
-
+  $("btnRun").addEventListener("click", () => { syncSettingsFromInputs(); renderAll(); toast("Analyse mise à jour"); });
   $("btnExport").addEventListener("click", exportCSV);
-
   $("btnReset").addEventListener("click", () => {
-    if(!state.history.length){
-      toast("Historique déjà vide");
-      return;
-    }
-    if(confirm("Effacer tout l’historique ?")){
+    if(!state.history.length){ toast("Historique déjà vide"); return; }
+    if(confirm("Effacer tout l'historique ?")){
       state.history = [];
-      saveState();
-      renderAll();
-      toast("Historique réinitialisé");
+      saveState(); renderAll(); toast("Historique réinitialisé");
     }
   });
-
   $("btnUndo").addEventListener("click", () => {
-    if(!state.history.length){
-      toast("Rien à annuler");
-      return;
-    }
-    state.history.pop();
-    saveState();
-    renderAll();
-    toast("Dernière entrée supprimée");
+    if(!state.history.length){ toast("Rien à annuler"); return; }
+    state.history.pop(); saveState(); renderAll(); toast("Entrée supprimée");
   });
-
   $("btnDemo").addEventListener("click", addDemoData);
-
-  $("btnFillTime").addEventListener("click", () => {
-    fillCurrentTime();
-    toast("Heure actuelle insérée");
-  });
-
+  $("btnFillTime").addEventListener("click", () => { fillCurrentTime(); toast("Heure insérée"); });
   $("btnImport").addEventListener("click", () => $("fileInput").click());
-
   $("fileInput").addEventListener("change", e => {
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => importCSVText(ev.target.result || "");
-    reader.readAsText(file);
-    e.target.value = "";
+    const f = e.target.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = ev => importCSVText(ev.target.result || "");
+    r.readAsText(f); e.target.value = "";
   });
-
-  $("multiInput").addEventListener("keydown", e => {
-    if(e.key === "Enter") addValueFromInputs();
+  $("multiInput").addEventListener("keydown", e => { if(e.key === "Enter") addValueFromInputs(); });
+  ["highThreshold","megaThreshold","lowThreshold"].forEach(id => {
+    $(id).addEventListener("change", () => { syncSettingsFromInputs(); renderAll(); });
   });
-
-  ["highThreshold", "lowThreshold", "roundDuration"].forEach(id => {
-    $(id).addEventListener("change", () => {
-      syncSettingsFromInputs();
-      renderAll();
-    });
-  });
-
   window.addEventListener("resize", drawChart);
 }
 
@@ -1997,12 +1629,8 @@ function init(){
   setInterval(tickClock, 1000);
 }
 
-if(document.readyState === "loading"){
-  document.addEventListener("DOMContentLoaded", init);
-}else{
-  init();
-}
+if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+else init();
 </script>
-
 </body>
 </html>
