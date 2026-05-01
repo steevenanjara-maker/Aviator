@@ -3,88 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Dashboard PR.SOCIAL</title>
+    <title>Dashboard PR.SOCIAL - Projet Etude</title>
     <style>
-        body { font-family: sans-serif; background-color: #121212; color: white; padding: 20px; }
-        .card { background: #1e1e1e; border-radius: 10px; padding: 20px; margin-bottom: 20px; border: 1px solid #333; }
-        .btn { background: #ff4500; color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
-        .btn:active { background: #e03e00; }
-        input { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #444; color: #00ff00; border-radius: 5px; box-sizing: border-box; font-family: monospace; }
-        #task-list { list-style: none; padding: 0; margin-top: 15px; }
-        .task-item { background: #2a2a2a; padding: 15px; margin-top: 8px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #ff4500; }
-        .reward { color: #00ff00; font-weight: bold; }
-        .loader { color: #888; font-style: italic; text-align: center; margin: 10px; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0f0f0f; 
+            color: #e0e0e0; 
+            padding: 15px;
+            margin: 0;
+        }
+        .container { max-width: 500px; margin: auto; }
+        h2 { color: #ffffff; text-align: center; border-bottom: 2px solid #ff4500; padding-bottom: 10px; }
+        .card { 
+            background: #1a1a1a; 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+        }
+        label { display: block; margin-bottom: 8px; font-size: 0.9em; color: #888; }
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 15px; 
+            background: #252525; 
+            border: 1px solid #444; 
+            color: #00ff00; 
+            border-radius: 6px; 
+            box-sizing: border-box;
+            font-family: monospace;
+        }
+        .btn { 
+            background: #ff4500; 
+            color: white; 
+            border: none; 
+            padding: 14px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+        .btn:hover { background: #e03e00; }
+        #status-msg { 
+            text-align: center; 
+            margin: 15px 0; 
+            font-size: 0.85em; 
+            min-height: 20px;
+        }
+        #task-list { list-style: none; padding: 0; }
+        .task-item { 
+            background: #252525; 
+            padding: 15px; 
+            margin-top: 10px; 
+            border-radius: 8px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-left: 5px solid #ff4500;
+        }
+        .reward { color: #00ff00; font-weight: bold; font-size: 1.1em; }
     </style>
 </head>
 <body>
 
-    <h2>Projet "Etude" - PR.SOCIAL</h2>
+<div class="container">
+    <h2>PR.SOCIAL DASHBOARD</h2>
 
     <div class="card">
-        <h3>Configuration API</h3>
-        <label>Ma Clé de Travail :</label>
-        <!-- Ta clé récupérée sur Screenshot_20260501_132436_Firefox.jpg -->
-        <input type="text" id="apiKey" value="prs_1138fa3554ad7d9eeb00f89a2df26d32" placeholder="Entrez votre clé API ici">
-        <button class="btn" onclick="fetchTasks()">ACTUALISER LES MISSIONS</button>
+        <label>Ma Clé API (Projet Etude) :</label>
+        <input type="text" id="apiKey" value="prs_1138fa3554ad7d9eeb00f89a2df26d32">
+        <button class="btn" onclick="fetchTasks()">Actualiser les Missions</button>
+        <div id="status-msg">Prêt pour le chargement...</div>
     </div>
 
     <div class="card">
-        <h3>Missions Disponibles</h3>
-        <div id="status-msg" class="loader">Appuyez sur le bouton pour charger...</div>
-        <ul id="task-list"></ul>
+        <h3 style="margin-top:0;">Missions Disponibles</h3>
+        <ul id="task-list">
+            <!-- Les tâches s'afficheront ici -->
+        </ul>
     </div>
+</div>
 
-    <script>
-        async function fetchTasks() {
-            const key = document.getElementById('apiKey').value;
-            const taskList = document.getElementById('task-list');
-            const statusMsg = document.getElementById('status-msg');
+<script>
+    async function fetchTasks() {
+        const key = document.getElementById('apiKey').value;
+        const taskList = document.getElementById('task-list');
+        const statusMsg = document.getElementById('status-msg');
+        
+        taskList.innerHTML = "";
+        statusMsg.innerHTML = "Connexion en cours...";
+        statusMsg.style.color = "#ff4500";
+
+        try {
+            // Utilisation d'un proxy pour éviter l'erreur réseau sur Acode
+            const proxy = "https://api.allorigins.win/get?url=";
+            const targetUrl = encodeURIComponent("https://api.pr.social/v1/tasks");
+
+            const response = await fetch(proxy + targetUrl);
             
-            // Réinitialisation
-            taskList.innerHTML = "";
-            statusMsg.innerHTML = "Connexion au serveur PR.SOCIAL en cours...";
-            statusMsg.style.color = "#888";
+            if (response.ok) {
+                const data = await response.json();
+                // AllOrigins met le contenu JSON dans la propriété .contents sous forme de string
+                const tasks = JSON.parse(data.contents);
+                
+                statusMsg.innerHTML = "Mise à jour réussie !";
+                statusMsg.style.color = "#00ff00";
 
-            try {
-                // Utilisation d'un proxy pour éviter l'erreur de connexion vue sur Screenshot_20260501_133236_Acode.jpg
-                const proxyUrl = "https://corsproxy.io/?";
-                const targetUrl = "https://api.pr.social/v1/tasks"; // Vérifie si l'URL est /tasks ou /worker/tasks
-
-                const response = await fetch(proxyUrl + targetUrl, {
-                    method: 'GET',
-                    headers: { 
-                        'Authorization': `Bearer ${key}`,
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    const tasks = await response.json();
-                    statusMsg.innerHTML = ""; // Efface le message de chargement
-                    
-                    if (tasks.length === 0) {
-                        statusMsg.innerHTML = "Aucune tâche disponible pour le moment.";
-                    } else {
-                        tasks.forEach(task => {
-                            const li = document.createElement('li');
-                            li.className = "task-item";
-                            li.innerHTML = `
-                                <span>${task.name || 'Mission Sociale'}</span>
-                                <span class="reward">+ $${task.reward || '0.00'}</span>
-                            `;
-                            taskList.appendChild(li);
-                        });
-                    }
+                if (tasks.length === 0) {
+                    statusMsg.innerHTML = "Aucune mission pour le moment.";
                 } else {
-                    statusMsg.innerHTML = "Erreur " + response.status + " : Clé API invalide ou accès refusé.";
-                    statusMsg.style.color = "red";
+                    tasks.forEach(task => {
+                        const li = document.createElement('li');
+                        li.className = "task-item";
+                        li.innerHTML = `
+                            <span>${task.name || 'Mission'}</span>
+                            <span class="reward">$${task.reward || '0.00'}</span>
+                        `;
+                        taskList.appendChild(li);
+                    });
                 }
-            } catch (error) {
-                statusMsg.innerHTML = "Erreur réseau : Vérifiez votre connexion internet.";
-                statusMsg.style.color = "red";
-                console.error(error);
+            } else {
+                throw new Error("Erreur serveur");
             }
+        } catch (error) {
+            statusMsg.innerHTML = "Erreur : Vérifiez votre clé ou la connexion.";
+            statusMsg.style.color = "#ff0000";
+            console.error("Détails:", error);
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
