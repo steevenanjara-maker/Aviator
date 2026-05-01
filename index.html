@@ -1,80 +1,105 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PR.SOCIAL - Projet Etude</title>
-    <style>
-        body { font-family: sans-serif; background-color: #0f0f0f; color: #e0e0e0; padding: 20px; }
-        .container { max-width: 450px; margin: auto; }
-        .card { background: #1a1a1a; padding: 20px; border-radius: 12px; border: 1px solid #333; margin-bottom: 20px; }
-        h2 { text-align: center; color: #fff; margin-bottom: 20px; border-bottom: 2px solid #ff4500; padding-bottom: 10px; }
-        input { width: 100%; padding: 12px; margin-bottom: 15px; background: #252525; border: 1px solid #444; color: #00ff00; border-radius: 6px; box-sizing: border-box; }
-        .btn { background: #ff4500; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
-        #status-msg { text-align: center; margin-top: 10px; font-size: 0.9em; }
-        .task-item { background: #252525; padding: 15px; margin-top: 10px; border-radius: 8px; display: flex; justify-content: space-between; border-left: 5px solid #ff4500; }
-        .reward { color: #00ff00; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Worker Dashboard - Timer Edition</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0f0f12;
+      --card-bg: #17171c;
+      --border: #2a2a33;
+      --accent: linear-gradient(90deg, #ff3b30, #ff7a00);
+      --text-main: #f3f3f3;
+      --text-dim: #aaa;
+    }
+    body { margin: 0; font-family: sans-serif; background: var(--bg-dark); color: var(--text-main); padding: 15px; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 15px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .title { font-size: 11px; color: var(--text-dim); text-transform: uppercase; }
+    .value { font-size: 20px; font-weight: bold; margin-top: 5px; }
+    .btn { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+    th { text-align: left; color: var(--text-dim); padding: 8px; border-bottom: 1px solid var(--border); }
+    td { padding: 10px 8px; border-bottom: 1px solid var(--border); }
+    .badge { background: #2a2a33; padding: 3px 6px; border-radius: 4px; font-size: 10px; border: none; color: white; cursor: pointer; }
+    
+    /* Animation du Timer */
+    #timer-display { color: #ff3b30; font-weight: bold; font-family: monospace; }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>PR.SOCIAL DASHBOARD</h2>
-    <div class="card">
-        <label>Ma Clé API :</label>
-        <input type="text" id="apiKey" value="prs_1138fa3554ad7d9eeb00f89a2df26d32">
-        <button class="btn" onclick="fetchTasks()">ACTUALISER LES MISSIONS</button>
-        <div id="status-msg">Prêt.</div>
-    </div>
+  <h2 style="margin-bottom:5px;">Profil : Herys</h2>
+  <p style="color:var(--text-dim); font-size:12px; margin-bottom:20px;">Statut : Newcomer</p>
 
+  <div class="grid">
     <div class="card">
-        <h3>Missions Disponibles</h3>
-        <ul id="task-list" style="list-style:none; padding:0;"></ul>
+      <div class="title">Trust Score</div>
+      <div class="value">30%</div>
     </div>
-</div>
+    <div class="card">
+      <div class="title">Timer de validation</div>
+      <div class="value" id="timer-display">00:00</div>
+    </div>
+  </div>
 
-<script>
-    async function fetchTasks() {
-        const key = document.getElementById('apiKey').value;
-        const taskList = document.getElementById('task-list');
-        const statusMsg = document.getElementById('status-msg');
+  <div class="card">
+    <button class="btn" onclick="syncRealData()">Synchroniser les tâches</button>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Réseau</th>
+            <th>Handle</th>
+            <th>Gain</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="taskBody">
+          <tr><td colspan="4" style="text-align:center; padding:20px; color:var(--text-dim);">Cliquez sur synchroniser</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function syncRealData() {
+        const table = document.getElementById('taskBody');
+        // Exemple de tâche TikTok réelle
+        const tiktokUrl = "https://www.tiktok.com/@tiktok"; 
         
-        taskList.innerHTML = "";
-        statusMsg.innerHTML = "Connexion sécurisée en cours...";
-        statusMsg.style.color = "#ff4500";
-
-        try {
-            // Utilisation d'un proxy différent pour éviter les blocages sur mobile
-            const target = "https://api.pr.social/v1/tasks";
-            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(target)}`;
-
-            const response = await fetch(proxyUrl);
-            const data = await response.json();
-            
-            // On vérifie si AllOrigins a bien récupéré les données
-            if (data.contents) {
-                const tasks = JSON.parse(data.contents);
-                statusMsg.innerHTML = "Mise à jour réussie !";
-                statusMsg.style.color = "#00ff00";
-
-                if (tasks.length === 0) {
-                    statusMsg.innerHTML = "Aucune mission disponible.";
-                } else {
-                    tasks.forEach(task => {
-                        const li = document.createElement('li');
-                        li.className = "task-item";
-                        li.innerHTML = `<span>${task.name || 'Mission'}</span><span class="reward">$${task.reward || '0.05'}</span>`;
-                        taskList.appendChild(li);
-                    });
-                }
-            } else {
-                statusMsg.innerHTML = "Erreur : Impossible de lire les données.";
-            }
-        } catch (error) {
-            statusMsg.innerHTML = "Erreur réseau. Réessayez dans Chrome.";
-            console.error(error);
-        }
+        table.innerHTML = `
+            <tr>
+                <td><span class="badge">TIKTOK</span></td>
+                <td>@tiktok</td>
+                <td style="color:#4cd964;">$0.004</td>
+                <td><button class="badge" style="background:#ff7a00" onclick="startTask('${tiktokUrl}')">GO</button></td>
+            </tr>
+        `;
     }
-</script>
+
+    function startTask(url) {
+        // 1. Ouvrir le lien TikTok
+        window.open(url, '_blank');
+
+        // 2. Lancer le compte à rebours (30 secondes)
+        let timeLeft = 30;
+        const display = document.getElementById('timer-display');
+        
+        const countdown = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                display.innerText = "PRÊT !";
+                display.style.color = "#4cd964"; // Devient vert quand c'est fini
+                alert("Vous pouvez maintenant valider la tâche sur le site !");
+            } else {
+                display.innerText = "00:" + (timeLeft < 10 ? "0" : "") + timeLeft;
+                timeLeft--;
+            }
+        }, 1000);
+    }
+  </script>
 </body>
 </html>
